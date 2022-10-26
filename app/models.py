@@ -50,8 +50,9 @@ class User(db.Model):
     location = db.Column(db.String(128), nullable=False)
     lang = db.Column(db.String(32), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.now)
-    user_logs = db.relationship('Userlog', backref='user')
-    user_word_rels = db.relationship('Userwordrel', backref='user')
+    token = db.Column(db.text, nullable=False)
+    user_logs = db.relationship('Userlog', backref='auth')
+    user_word_rels = db.relationship('Userwordrel', backref='auth')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

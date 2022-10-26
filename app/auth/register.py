@@ -1,4 +1,4 @@
-from . import user_api, Resource
+from . import auth_api, Resource
 from ..models import User
 from .. import db
 from flask_restful import reqparse
@@ -16,7 +16,7 @@ parser.add_argument('lang', required=True, type=str, location='json', help='è¯­è
 
 class RegisterView(Resource):
     def get(self):
-        return 'get retister page'
+        return 'get register page'
 
     def post(self):
         args = parser.parse_args()
@@ -51,5 +51,5 @@ class Helloyou(Resource):
         return {'status': 200}
 
 
-user_api.add_resource(Helloyou, '/')
-user_api.add_resource(RegisterView, '/register')
+auth_api.add_resource(Helloyou, '/')
+auth_api.add_resource(RegisterView, '/register')

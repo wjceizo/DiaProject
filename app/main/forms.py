@@ -33,18 +33,18 @@
 #     about_me = TextAreaField('About me')
 #     submit = SubmitField('Submit')
 #
-#     def __init__(self, user, *args, **kwargs):
+#     def __init__(self, auth, *args, **kwargs):
 #         super(EditProfileAdminForm, self).__init__(*args, **kwargs)
 #         self.role.choices = [(role.id, role.name)
 #                              for role in Role.query.order_by(Role.name).all()]
-#         self.user = user
+#         self.auth = auth
 #
 #     def validate_email(self, field):
-#         if field.data != self.user.email and \
+#         if field.data != self.auth.email and \
 #                 User.query.filter_by(email=field.data).first():
 #             raise ValidationError('Email already registered.')
 #
 #     def validate_username(self, field):
-#         if field.data != self.user.username and \
+#         if field.data != self.auth.username and \
 #                 User.query.filter_by(username=field.data).first():
 #             raise ValidationError('Username already in use.')
