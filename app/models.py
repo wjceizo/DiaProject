@@ -2,6 +2,7 @@ from datetime import datetime
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class Permission:
     USER = 1
     ADMIN = 2
@@ -37,8 +38,6 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
-
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -50,7 +49,7 @@ class User(db.Model):
     location = db.Column(db.String(128), nullable=False)
     lang = db.Column(db.String(32), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.now)
-    token = db.Column(db.text, nullable=False)
+    token = db.Column(db.Text())
     user_logs = db.relationship('Userlog', backref='auth')
     user_word_rels = db.relationship('Userwordrel', backref='auth')
 
@@ -58,7 +57,6 @@ class User(db.Model):
         super(User, self).__init__(**kwargs)
         if self.role_id is None:
             self.role_id = 2
-
 
     def __repr__(self):
         return '<User %r>' % self.name
@@ -94,7 +92,7 @@ class Userwordrel(db.Model):
     snd_path = db.Column(db.String(128))
     snd_abs = db.Column(db.String(128))
     created_at = db.Column(db.DateTime(), default=datetime.now)
-    update_at = db.Column(db.DateTime())
+    update_at = db.Column(db.DateTime(), default=datetime.now)
 
     # diffs = db.relationship('Diff', backref='user_word_rel')
 

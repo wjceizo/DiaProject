@@ -1,5 +1,6 @@
 from . import auth_api, Resource
 from ..models import User
+from ..utils.user import encode_auth_token
 from .. import db
 from flask_restful import reqparse
 from sqlalchemy.exc import IntegrityError
@@ -13,7 +14,6 @@ parser.add_argument('name', required=True, type=str, location='json', help='姓�
 parser.add_argument('location', required=True, type=str, location='json', help='地址不能为空')
 parser.add_argument('lang', required=True, type=str, location='json', help='语言不能为空')
 
-
 class RegisterView(Resource):
     def get(self):
         return 'get register page'
@@ -21,10 +21,12 @@ class RegisterView(Resource):
     def post(self):
         args = parser.parse_args()
         user = User(username=args['username'], email=args['email'],
-                    name=args['name'], location=args['location'], lang=args['lang'], role_id=2
+                    name=args['name'], location=args['location'], lang=args['lang']
                     )
         user.password = args['password_hash']
-
+        user_id = user.id
+        token = encode_auth_token(user_id)
+        user.token = token
         try:
             db.session.add(user)
             # db.commit()

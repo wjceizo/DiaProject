@@ -8,8 +8,6 @@ from flask import current_app
 parser = reqparse.RequestParser()
 parser.add_argument('username', type=str, required=True, location='json', help='用户名重复')
 parser.add_argument('password', required=True, type=str, location='json', help='密码不能为空')
-
-
 # parser.add_argument('location', required=True, type=str, location='json', help='地点不能为空')
 
 class LoginView(Resource):
