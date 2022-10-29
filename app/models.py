@@ -1,6 +1,9 @@
 from datetime import datetime
-from . import db, login_manager
+from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from config import Config
+import jwt
+import datetime as dat
 
 
 class Permission:
@@ -49,7 +52,6 @@ class User(db.Model):
     location = db.Column(db.String(128), nullable=False)
     lang = db.Column(db.String(32), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.now)
-    token = db.Column(db.Text())
     user_logs = db.relationship('Userlog', backref='auth')
     user_word_rels = db.relationship('Userwordrel', backref='auth')
 
@@ -71,6 +73,41 @@ class User(db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    @staticmethod
+    def encode_auth_token(user_id):
+        """
+        Generates the Auth Token
+        :return: string
+        """
+        try:
+            payload = {
+                'exp': datetime.utcnow() + dat.timedelta(days=0, seconds=60),
+                'iat': datetime.utcnow(),
+                'sub': user_id
+            }
+            return jwt.encode(
+                payload,
+                Config.SECRET_KEY,
+                algorithm='HS256'
+            )
+        except Exception as e:
+            return e
+
+    @staticmethod
+    def decode_auth_token(auth_token):
+        """
+        Decodes the auth token
+        :param auth_token:
+        :return: integer|string
+        """
+        try:
+            payload = jwt.decode(auth_token, Config.SECRET_KEY)
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return '验证已过期，请重新登录'
+        except jwt.InvalidTokenError:
+            return '验证错误，请重新登录'
 
 
 class Userlog(db.Model):

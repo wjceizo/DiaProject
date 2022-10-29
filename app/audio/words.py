@@ -28,13 +28,13 @@ class Words(Resource):
             # 数据库出错回滚
             db.session.rollback()
             current_app.logger.error(e)
-            return {"status": 422, "message": "已存在该词汇"}
+            return {"status": 422, "message": "已存在该词汇"}, 422
 
         except Exception as e:
             # 数据库出错回滚
             db.session.rollback()
             current_app.logger.error(e)
-            return {"status": 404, "message": "数据库查询异常"}
+            return {"status": 404, "message": "数据库查询异常"}, 404
 
         return {"status": 201, "message": "录入成功"}, 201
 
