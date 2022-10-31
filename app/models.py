@@ -82,7 +82,7 @@ class User(db.Model):
         """
         try:
             payload = {
-                'exp': datetime.utcnow() + dat.timedelta(days=0, seconds=60),
+                'exp': datetime.utcnow() + dat.timedelta(days=0, seconds=3600),
                 'iat': datetime.utcnow(),
                 'sub': user_id
             }
@@ -102,7 +102,7 @@ class User(db.Model):
         :return: integer|string
         """
         try:
-            payload = jwt.decode(auth_token, Config.SECRET_KEY)
+            payload = jwt.decode(auth_token, Config.SECRET_KEY, algorithms=['HS256'])
             return payload['sub']
         except jwt.ExpiredSignatureError:
             return '验证已过期，请重新登录'
@@ -124,9 +124,9 @@ class Userlog(db.Model):
 class Userwordrel(db.Model):
     __tablename__ = 'user_word_rels'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    word_id = db.Column(db.String(128), db.ForeignKey('words.id'))
-    snd_path = db.Column(db.String(128))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
+    word_id = db.Column(db.String(128), db.ForeignKey('words.id'), index=True)
+    snd_path = db.Column(db.String(128), unique=True)
     snd_abs = db.Column(db.String(128))
     created_at = db.Column(db.DateTime(), default=datetime.now)
     update_at = db.Column(db.DateTime(), default=datetime.now)

@@ -28,6 +28,9 @@ def create_app(config_name):
     from .audio import audio as audio_blueprint
     app.register_blueprint(audio_blueprint, url_prefix='/audio')
 
+    from .user import user as user_blueprint
+    app.register_blueprint(user_blueprint, url_prefix='/user')
+
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 

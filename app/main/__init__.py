@@ -6,7 +6,7 @@ main = Blueprint('main', __name__)
 main_api = Api(main)
 
 
-from . import views, errors
+from . import views
 # from ..models import Permission
 #
 #

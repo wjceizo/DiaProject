@@ -2,7 +2,6 @@ from . import auth_api, Resource
 from ..models import User, Userlog
 from .. import db
 from flask_restful import reqparse
-# from sqlalchemy.exc import IntegrityError
 from flask import current_app
 
 parser = reqparse.RequestParser()
@@ -23,7 +22,6 @@ class LoginView(Resource):
             userid = user.id
             token = User.encode_auth_token(userid)
             user_logs = Userlog(user_id=userid, location='China')
-            message = 'success'
             try:
                 db.session.add(user_logs)
                 # db.commit()
@@ -32,8 +30,8 @@ class LoginView(Resource):
                 # 数据库出错回滚
                 db.session.rollback()
                 current_app.logger.error(e)
-                message = '数据库查询异常'
-            return {'status': 200, 'message': message, 'token': token}
+                return {'status': 404, 'message': '数据库查询异常'}, 404
+            return {'status': 200, 'message': 'success', 'token': token}
         else:
             return {'status': 403, 'message': 'failed'}, 403
 
