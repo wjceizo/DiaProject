@@ -1,0 +1,6 @@
+db.drop_all()
+db.create_all()
+admin_role = Role(name='Admin',permissions=2)
+user_role = Role(name='User')
+db.session.add_all([admin_role, user_role])
+db.session.commit()
