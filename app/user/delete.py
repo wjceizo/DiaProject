@@ -37,4 +37,30 @@ class DeleteOneView(Resource):
             return {'status': 403, 'message': 'no this audio'}, 403
 
 
+class DeleteAllView(Resource):
+    def get(self):
+        return {'word_id': 'sad'}
+
+    def post(self):
+        args = parser.parse_args()
+        userid = User.decode_auth_token(args['token'])
+        path = []
+        userwordrel = Userwordrel.query.filter_by(user_id=userid).all()
+        if userwordrel is not None:
+            # try:
+            for item in userwordrel:
+                path.append(item.snd_path)
+            current_app.logger.info(userid)
+            current_app.logger.info(path)
+            # except Exception as e:
+            #     # 数据库出错回滚
+            #     db.session.rollback()
+            #     current_app.logger.error(e)
+            #     return {"status": 404, "message": "数据库查询异常"}, 404
+            return {"status": 200, "message": 'userwordrel'}, 200
+        else:
+            return {'status': 403, 'message': 'no this audio'}, 403
+
+
 user_api.add_resource(DeleteOneView, '/<word_id>/delete')
+user_api.add_resource(DeleteAllView, '/all/delete')

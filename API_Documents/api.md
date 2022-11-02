@@ -142,7 +142,7 @@
 
 ### 录音全部删除
 
-/user/word/delete
+/user/word/all/delete
 
 1. 方法：post
 

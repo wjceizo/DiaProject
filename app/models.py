@@ -38,7 +38,7 @@ class Role(db.Model):
         return self.permissions & perm == perm
 
     def __repr__(self):
-        return '<Role %r>' % self.name
+        return self.name
 
 
 class User(db.Model):
@@ -61,7 +61,7 @@ class User(db.Model):
             self.role_id = 2
 
     def __repr__(self):
-        return '<User %r>' % self.name
+        return self.username
 
     @property
     def password(self):
@@ -82,7 +82,7 @@ class User(db.Model):
         """
         try:
             payload = {
-                'exp': datetime.utcnow() + dat.timedelta(days=0, seconds=3600),
+                'exp': datetime.utcnow() + dat.timedelta(days=10, seconds=3600),
                 'iat': datetime.utcnow(),
                 'sub': user_id
             }
@@ -134,7 +134,7 @@ class Userwordrel(db.Model):
     # diffs = db.relationship('Diff', backref='user_word_rel')
 
     def __repr__(self):
-        return '<Userwordrel %r>' % self.name
+        return "(%s, %s, %s, %s)" % (self.id, self.user_id, self.word_id, self.snd_path)
 
 
 class Word(db.Model):
@@ -146,7 +146,7 @@ class Word(db.Model):
     user_word_rels = db.relationship('Userwordrel', backref='word')
 
     def __repr__(self):
-        return '<Word %r>' % self.name
+        return self.stem
 
 
 class Diff(db.Model):
@@ -160,7 +160,7 @@ class Diff(db.Model):
     uwr2 = db.relationship('Userwordrel', foreign_keys=uwr_id2)
 
     def __repr__(self):
-        return '<Diff %r>' % self.name
+        return self.value
 
 
 class Difftype(db.Model):

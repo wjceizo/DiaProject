@@ -83,4 +83,4 @@ class UpdateRecordView(Resource):
 
 user_api.add_resource(RecordView, '/<word_id>/record')
 user_api.add_resource(UpdateRecordView, '/<word_id>/update')
-# user_api.add_resource(RecordView, '/record')
+
