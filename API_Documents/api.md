@@ -18,21 +18,16 @@
 
 - 请求格式：
   
+  ```json
   {
-
-      "username": "user",
-
-      "password_hash": "abc123",
-
-      "email": "user@example.com",
-
-      "name": "Zhao",
-
-      "location": "zhangjiagang",
-
-      "lang": "putong"
-
-        }
+        "username": "user",
+        "password_hash": "abc123",
+        "email": "user@example.com",
+        "name": "Zhao",
+        "location": "zhangjiagang",
+        "lang": "putong"
+  }
+  ```
 
 ### 登录
 
@@ -44,23 +39,56 @@
 
 - 请求格式：
   
+  ```json
   {
-  
-    "username": "user",
-  
-    "password": "abc123",
-  
+    "username": "user",
+    "password": "abc123"
   }
+  ```
 
 ### 用户
 
-/auth/user
+/auth/users
 
 - 方法：get
 
 - 描述：获取用户用户名
 
 - 请求对象：无
+
+- 参数：
+  
+  - page=`0`
+  
+  - pageSize=`5`
+  
+  - order=`ASC`/`DESC`
+
+- 响应格式：
+
+```json
+[
+    "total":100
+    "page": 0,
+    "pageSize": 5,
+    "order": "ASC",
+    "orderBy":"id",
+    "users":
+        {
+            "username": "wang",
+            "id": "235"
+        },
+        {
+            "username": "wang",
+            "id": "235"
+        },
+        ...
+] 
+```
+
+- 用例：
+  
+  https://127.0.0.1:5000/auth/users/pagr=1&pageSize=5
 
 ## Audio
 
@@ -73,18 +101,17 @@
 - 描述：添加新的词
 
 - 请求对象：
-  
-  {
-  
-  "stem":"一",
-  
-  "meaning":"计数法中的第一个",
-  
-  "comm":"数一"   
-  
-  }
-  
-  comm可以省略
+
+```json
+{
+    "stem":"一",
+    "meaning":"计数法中的第一个",
+    "comm":"数一"   
+}
+
+```
+
+*comm可以省略*
 
 ## User
 
@@ -150,8 +177,8 @@
 
 3. 请求对象：
    
+   ```json
    {
-   
-   "token": "efsdfini.."
-   
+       "token": "efsdfini.."
    }
+   ```
