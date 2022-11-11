@@ -26,7 +26,7 @@ class RecordView(Resource):
         userid = User.decode_auth_token(args['token'])
 
         try:
-            stream = args.get('record')
+            stream = args.get
             upload_path = os.path.join(basepath, "records", secure_filename(stream.filename))
             stream.save(upload_path)
             userwordrel = Userwordrel(user_id=userid, word_id=word_id, snd_path=upload_path, snd_abs=args['snd_abs'])
@@ -58,7 +58,7 @@ class UpdateRecordView(Resource):
         userwordrel = Userwordrel.query.filter_by(user_id=userid, word_id=word_id).first()
         if userwordrel is not None:
             try:
-                stream = args.get('record')
+                stream = args.get
                 upload_path = os.path.join(basepath, "records", secure_filename(stream.filename))
                 stream.save(upload_path)
                 userwordrel.update_at = datetime.now()

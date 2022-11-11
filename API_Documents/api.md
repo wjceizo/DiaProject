@@ -68,11 +68,15 @@
 
 ```json
 [
-    "total":100
+    "total":100,
     "page": 0,
-    "pageSize": 5,
+    "perPage":10, 
+    "currentPage":10,
+    "totalPages":20,
     "order": "ASC",
     "orderBy":"id",
+    "hasNext":true,
+    "hasPrev":true,    
     "users":
         {
             "username": "wang",
@@ -108,7 +112,6 @@
     "meaning":"计数法中的第一个",
     "comm":"数一"   
 }
-
 ```
 
 *comm可以省略*
