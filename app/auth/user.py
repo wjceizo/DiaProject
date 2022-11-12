@@ -18,8 +18,31 @@ class UserView(Resource):
         args = parser.parse_args()
         get_item = {}
         user_item = []
-        pagination = User.query.order_by(User.id).paginate(page=args['page'], per_page=args['per_page'],
-                                                           error_out=False)
+        current_app.logger.info(args['order'])
+        current_app.logger.info(args['order_by'])
+        if args['order'] == 'id' and args['order_by'] == 'ASC':
+            pagination = User.query.order_by(User.id).paginate(page=args['page'],
+                                                               per_page=args['per_page'],
+                                                               error_out=False)
+
+        elif args['order'] == 'username' and args['order_by'] == 'DESC':
+            pagination = User.query.order_by(User.username.desc()).paginate(page=args['page'],
+                                                                            per_page=args['per_page'],
+                                                                            error_out=False)
+
+        elif args['order'] == 'username' and args['order_by'] == 'ASC':
+            pagination = User.query.order_by(User.username).paginate(page=args['page'],
+                                                                     per_page=args['per_page'],
+                                                                     error_out=False)
+
+        elif args['order'] == 'id' and args['order_by'] == 'DESC':
+            pagination = User.query.order_by(User.id.desc()).paginate(page=args['page'],
+                                                                      per_page=args['per_page'],
+                                                                      error_out=False)
+
+        else:
+            return {'status': 403, 'message': 'order or order_by wrong'}, 403
+
         count = User.query.count()
         order = args['order']
         order_by = args['order_by']
@@ -54,7 +77,7 @@ class UserView(Resource):
         get_item.update({'users': user_item})
         json_item = json.dumps(get_item)
         # https://blog.csdn.net/qq_43193386/article/details/120172469
-        return get_item
+        return get_item, 200
 
 
 auth_api.add_resource(UserView, '/users')

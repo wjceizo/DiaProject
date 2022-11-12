@@ -32,7 +32,7 @@ class DeleteOneView(Resource):
                 db.session.rollback()
                 current_app.logger.error(e)
                 return {"status": 404, "message": "数据库查询异常"}, 404
-            return {"status": 200, "message": "delete successfully"}, 200
+            return {'status': 200, 'message': "delete successfully"}, 200
         else:
             return {'status': 403, 'message': 'Do not upload this audio!'}, 403
 
