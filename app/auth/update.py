@@ -1,0 +1,49 @@
+from . import auth_api, Resource
+from ..models import User
+from .. import db
+from flask_restful import reqparse
+from flask import current_app
+
+parser = reqparse.RequestParser()
+parser.add_argument('username', type=str, required=True, location='json', help='用户名不能为空')
+parser.add_argument('password', type=str, location='json', help='密码不能为空')
+parser.add_argument('newpassword', type=str, location='json', help='密码不能为空')
+parser.add_argument('email', type=str, location='json', help='电子邮箱重复')
+parser.add_argument('name', type=str, location='json', help='姓名不能为空')
+parser.add_argument('location', type=str, location='json', help='地址不能为空')
+parser.add_argument('lang', type=str, location='json', help='语言不能为空')
+
+
+class UpdatePasswordView(Resource):
+    def get(self):
+        return {'help': 'UpdatePasswordView'}, 200
+
+    def post(self):
+        args = parser.parse_args()
+        user = User.query.filter_by(username=args['username']).first()
+        if user is not None:
+            if user.verify_password(args['password']):
+                user.verified = True
+                user.password = args['newpassword']
+                try:
+                    db.session.commit()  # SQLAlchemy用
+                except Exception as e:
+                    # 数据库出错回滚
+                    db.session.rollback()
+                    current_app.logger.error(e)
+                    return {"status": 404, "message": "数据库查询异常"}, 404
+            else:
+                return {'status': 403, 'message': '密码错误'}, 403
+        else:
+            return {'status': 403, 'message': '不存在该用户'}, 403
+
+        return {'status': 200, 'message': '密码更新成功'}, 200
+
+
+class UpdateInformationView(Resource):
+    def get(self):
+        return {'help': 'UpdateInformationView'}, 200
+
+
+auth_api.add_resource(UpdatePasswordView, '/update/password')
+auth_api.add_resource(UpdateInformationView, '/update/information')

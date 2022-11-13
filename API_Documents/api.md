@@ -46,7 +46,24 @@
   }
   ```
 
-### 用户
+### 修改密码
+
+/auth/update/password
+
+- 方法：post
+
+- 描述：用户更新数据
+
+- 请求格式：
+  
+  ```json
+  {
+   "username": "user",
+   "password": "abc123"
+  }
+  ```
+
+### 获取用户
 
 /auth/users
 
@@ -56,13 +73,20 @@
 
 - 请求对象：无
 
-- 参数：
+- 请求格式：
   
-  - page=`0`
+  - order_by: `ASC`/`DESC`
   
-  - pageSize=`5`
-  
-  - order=`ASC`/`DESC`
+  - order: `id`/`username`
+
+```json
+{
+    "page": 1,
+    "per_page": 10,
+    "order_by":"ASC",
+    "order":"username"
+}
+```
 
 - 响应格式：
 
@@ -89,10 +113,6 @@
         ...
 ] 
 ```
-
-- 用例：
-  
-  https://127.0.0.1:5000/auth/users/pagr=1&pageSize=5
 
 ## Audio
 
@@ -154,7 +174,7 @@
    | token   | efsdfini.. | txt  |
    | snd_abs | hello      | txt  |
 
-### 用户删除
+### 删除录音
 
 /user/word/{word_id}/delete
 
@@ -170,7 +190,7 @@
    
    }
 
-### 录音全部删除
+### 删除全部录音
 
 /user/word/all/delete
 

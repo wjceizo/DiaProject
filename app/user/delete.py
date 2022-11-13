@@ -1,8 +1,4 @@
 import os
-from datetime import datetime
-from werkzeug.datastructures import FileStorage
-from werkzeug.utils import secure_filename
-
 from . import user_api, Resource
 from ..models import Userwordrel, User
 from .. import db

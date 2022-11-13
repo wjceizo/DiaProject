@@ -16,7 +16,7 @@ parser.add_argument('lang', required=True, type=str, location='json', help='è¯­è
 
 class RegisterView(Resource):
     def get(self):
-        return 'get register page'
+        return {'help': 'RegisterView'}
 
     def post(self):
         args = parser.parse_args()

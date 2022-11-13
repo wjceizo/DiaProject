@@ -13,7 +13,7 @@ parser.add_argument('password', required=True, type=str, location='json', help='
 # !!测试用
 class LoginView(Resource):
     def get(self):
-        return {'hello': 'you'}
+        return {'help': 'LoginView'}
 
     def post(self):
         args = parser.parse_args()

@@ -1,6 +1,5 @@
 from . import auth_api, Resource
-from ..models import User, Userlog
-from .. import db
+from ..models import User
 from flask_restful import reqparse
 from flask import current_app
 import json
@@ -76,7 +75,6 @@ class UserView(Resource):
             user_item.append(user_dict)
         get_item.update({'users': user_item})
         json_item = json.dumps(get_item)
-        # https://blog.csdn.net/qq_43193386/article/details/120172469
         return get_item, 200
 
 
