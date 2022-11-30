@@ -13,7 +13,18 @@ class Config:
     # FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     # FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
     # FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+   
+    SQLALCHEMY_TRACK_MODIFICATIONS = False 
+    PROPAGATE_EXCEPTIONS = True 
+    API_TITLE = "Dialect Map REST API"
+    API_VERSION = "v1"
+    OPENAPI_VERSION = "3.0.3"
+    OPENAPI_URL_PREFIX = "/"
+    OPENAPI_REDOC_PATH = "/redoc"
+    OPENAPI_REDOC_URL = "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
+    OPENAPI_RAPIDOC_PATH = "/rapidoc"
+    OPENAPI_RAPIDOC_URL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+    OPENAPI_RAPIDOC_CONFIG = {"theme": "dark"}
 
     @staticmethod
     def init_app(app):

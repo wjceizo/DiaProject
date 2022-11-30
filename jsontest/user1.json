@@ -1,6 +1,6 @@
 {
   "username":"user",
-  "password_hash":"abc123",
+  "password":"abc123",
   "email":"user@example.com",
   "name":"Zhao",
   "location":"zhangjiagang",

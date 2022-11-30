@@ -1,15 +1,9 @@
-from flask import Blueprint
-from flask_restful import Api, Resource
+from flask import request
+from flask.views import MethodView
+from flask_smorest import Blueprint, abort
 
 
-main = Blueprint('main', __name__)
-main_api = Api(main)
-
+mainpage = Blueprint("Main", "main", description="main page")
 
 from . import views
-# from ..models import Permission
-#
-#
-# @main.app_context_processor
-# def inject_permissions():
-#     return dict(Permission=Permission)
+

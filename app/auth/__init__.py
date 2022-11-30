@@ -1,7 +1,7 @@
 from flask import Blueprint
-from flask_restful import Api, Resource
+from flask.views import MethodView
+from flask_smorest import Blueprint, abort
 
-auth = Blueprint('auth', __name__)
-auth_api = Api(auth)
+auth = Blueprint("Auth", "auths", description="control auths")
 
-from . import register, login, user, update
+from . import register,login,user,update 

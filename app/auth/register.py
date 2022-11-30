@@ -1,29 +1,29 @@
-from . import auth_api, Resource
+from . import auth, MethodView,abort
 from ..models import User
+from ..schemas import AuthRegisterSchema
 from .. import db
 from flask_restful import reqparse
 from sqlalchemy.exc import IntegrityError
 from flask import current_app
 
-parser = reqparse.RequestParser()
-parser.add_argument('username', type=str, required=True, location='json', help='用户名重复')
-parser.add_argument('password_hash', required=True, type=str, location='json', help='密码不能为空')
-parser.add_argument('email', type=str, required=True, location='json', help='电子邮箱重复')
-parser.add_argument('name', required=True, type=str, location='json', help='姓名不能为空')
-parser.add_argument('location', required=True, type=str, location='json', help='地址不能为空')
-parser.add_argument('lang', required=True, type=str, location='json', help='语言不能为空')
+@auth.route("/")
+class Helloyou(MethodView):
+    def get(self):
+        return {'status': 200}
 
 
-class RegisterView(Resource):
+@auth.route("/register")
+class RegisterView(MethodView):
     def get(self):
         return {'help': 'RegisterView'}
 
-    def post(self):
-        args = parser.parse_args()
-        user = User(username=args['username'], email=args['email'],
-                    name=args['name'], location=args['location'], lang=args['lang']
+
+    @auth.arguments(AuthRegisterSchema)
+    def post(self,auth_data):
+        user = User(username=auth_data['username'], email=auth_data['email'],
+                    name=auth_data['name'], location=auth_data['location'], lang=auth_data['lang']
                     )
-        user.password = args['password_hash']
+        user.password = auth_data['password']
         try:
             db.session.add(user)
             # db.commit()
@@ -32,23 +32,20 @@ class RegisterView(Resource):
         except IntegrityError as e:
             # 数据库出错回滚
             db.session.rollback()
-            # 手机号重复，记录错误日志
+            # 用户名重复，记录错误日志
             current_app.logger.error(e)
-            return {"status": 422, "message": "用户已注册"}, 422
+            abort(422, message='用户已注册')
+
 
         except Exception as e:
             # 数据库出错回滚
             db.session.rollback()
             current_app.logger.error(e)
-            return {"status": 404, "message": "数据库查询异常"}
+            abort(404, message='数据库查询异常')
 
         return {"status": 201, "message": "注册成功"}, 201
 
 
-class Helloyou(Resource):
-    def get(self):
-        return {'status': 200}
 
 
-auth_api.add_resource(Helloyou, '/')
-auth_api.add_resource(RegisterView, '/register')
+

@@ -1,50 +1,46 @@
-from . import auth_api, Resource
+from . import auth, MethodView,abort
 from ..models import User
+from ..schemas import AuthSchema
 from flask_restful import reqparse
 from flask import current_app
 import json
 
-parser = reqparse.RequestParser()
-parser.add_argument('page', type=int, required=True, location='json', help='第几页不能为空')
-parser.add_argument('per_page', required=True, type=int, location='json', help='每页数量不能为空')
-parser.add_argument('order', type=str, location='json', default='id', required=False)
-parser.add_argument('order_by', type=str, location='json', default='ASC', required=False)
 
+@auth.route("/userinfo")
+class UserView(MethodView):
 
-class UserView(Resource):
-
-    def get(self):
-        args = parser.parse_args()
+    @auth.arguments(AuthSchema)
+    def get(self,page_data):
         get_item = {}
         user_item = []
-        current_app.logger.info(args['order'])
-        current_app.logger.info(args['order_by'])
-        if args['order'] == 'id' and args['order_by'] == 'ASC':
-            pagination = User.query.order_by(User.id).paginate(page=args['page'],
-                                                               per_page=args['per_page'],
+        current_app.logger.info(page_data['order'])
+        current_app.logger.info(page_data['order_by'])
+        if page_data['order'] == 'id' and page_data['order_by'] == 'ASC':
+            pagination = User.query.order_by(User.id).paginate(page=page_data['page'],
+                                                               per_page=page_data['per_page'],
                                                                error_out=False)
 
-        elif args['order'] == 'username' and args['order_by'] == 'DESC':
-            pagination = User.query.order_by(User.username.desc()).paginate(page=args['page'],
-                                                                            per_page=args['per_page'],
+        elif page_data['order'] == 'username' and page_data['order_by'] == 'DESC':
+            pagination = User.query.order_by(User.username.desc()).paginate(page=page_data['page'],
+                                                                            per_page=page_data['per_page'],
                                                                             error_out=False)
 
-        elif args['order'] == 'username' and args['order_by'] == 'ASC':
-            pagination = User.query.order_by(User.username).paginate(page=args['page'],
-                                                                     per_page=args['per_page'],
+        elif page_data['order'] == 'username' and page_data['order_by'] == 'ASC':
+            pagination = User.query.order_by(User.username).paginate(page=page_data['page'],
+                                                                     per_page=page_data['per_page'],
                                                                      error_out=False)
 
-        elif args['order'] == 'id' and args['order_by'] == 'DESC':
-            pagination = User.query.order_by(User.id.desc()).paginate(page=args['page'],
-                                                                      per_page=args['per_page'],
+        elif page_data['order'] == 'id' and page_data['order_by'] == 'DESC':
+            pagination = User.query.order_by(User.id.desc()).paginate(page=page_data['page'],
+                                                                      per_page=page_data['per_page'],
                                                                       error_out=False)
 
         else:
-            return {'status': 403, 'message': 'order or order_by wrong'}, 403
+            abort(403,message='order or order_by wrong')
 
         count = User.query.count()
-        order = args['order']
-        order_by = args['order_by']
+        order = page_data['order']
+        order_by = page_data['order_by']
         users = pagination.items
         has_next = pagination.has_next
         has_prev = pagination.has_prev
@@ -78,4 +74,3 @@ class UserView(Resource):
         return get_item, 200
 
 
-auth_api.add_resource(UserView, '/users')
