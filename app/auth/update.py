@@ -1,19 +1,31 @@
-from . import auth, MethodView,abort
+from . import auth, MethodView, abort
 from ..models import User
-from ..schemas import AuthupdateInformationSchema,AuthupdatePasswordSchema
+from ..schemas import AuthRegisterSchema, AuthupdateInformationSchema, AuthupdatePasswordSchema
 from .. import db
-from flask_restful import reqparse
 from flask import current_app
+from flask_jwt_extended import jwt_required,get_jwt_identity
 
 
-@auth.route("update/password")
+@auth.route("/info")
+class InformationView(MethodView):
+
+    @auth.response(200,AuthRegisterSchema)
+    @jwt_required()
+    def get(self):
+        user = User.query.filter_by(
+            id = get_jwt_identity()).first()
+        return user
+
+@auth.route("/update/password")
 class UpdatePasswordView(MethodView):
     def get(self):
-        return {'help': 'UpdatePasswordView'}, 200
+        return {'help': 'Use put method to update password!'}, 200
 
     @auth.arguments(AuthupdatePasswordSchema)
-    def put(self,pass_data):
-        user = User.query.filter_by(id=User.decode_auth_token(pass_data['token'])).first()
+    @jwt_required()
+    def put(self, pass_data):
+        user = User.query.filter_by(
+            id = get_jwt_identity()).first()
         if user is not None:
             if user.verify_password(pass_data['password']):
                 user.verified = True
@@ -31,17 +43,19 @@ class UpdatePasswordView(MethodView):
             abort(403, message='不存在该用户')
         return {'status': 200, 'message': '密码更新成功'}, 200
 
-@auth.route("update/info")
+
+@auth.route("/update/info")
 class UpdateInformationView(MethodView):
-    @auth.arguments(AuthupdateInformationSchema)
-    def get(self,info_data):
-        user = User.query.filter_by(id=User.decode_auth_token(info_data['token'])).first()
-        return {'id': user.id, 'email': user.email, 'username': user.username,
-                'name': user.name, 'location': user.location, 'lang': user.lang}, 200
+
+    def get(self):
+        return {'help': "Use put method to update auth's information!"}, 200
 
     @auth.arguments(AuthupdateInformationSchema)
-    def put(self,info_data):
-        user = User.query.filter_by(id=User.decode_auth_token(info_data['token'])).first()
+    @auth.response(200,AuthRegisterSchema)
+    @jwt_required()
+    def put(self, info_data):
+        user = User.query.filter_by(
+            id = get_jwt_identity()).first()
         if user is not None:
             user.verified = True
             current_app.logger.info(user.email)
@@ -58,8 +72,4 @@ class UpdateInformationView(MethodView):
                 abort(404, message='数据库查询异常')
         else:
             abort(403, message='不存在该用户')
-
-        return {'status': 200, 'message': '用户信息更新成功'}, 200
-
-
-
+        return user

@@ -1,10 +1,9 @@
 from app.schemas import AuthLoginSchema
-from . import auth, MethodView,abort
+from . import auth, MethodView, abort
 from ..models import User, Userlog
 from .. import db
-from flask_restful import reqparse
+from flask_jwt_extended import create_access_token
 from flask import current_app
-
 
 
 @auth.route("/login")
@@ -13,7 +12,7 @@ class LoginView(MethodView):
         return {'help': 'LoginView'}
 
     @auth.arguments(AuthLoginSchema)
-    def post(self,auth_data):
+    def post(self, auth_data):
         user = User.query.filter_by(username=auth_data['username']).first()
         if user is not None and user.verify_password(auth_data['password']):
             userid = user.id
@@ -31,5 +30,3 @@ class LoginView(MethodView):
             return {'status': 200, 'message': 'success', 'token': token}
         else:
             abort(403, message='wrong password')
-
-

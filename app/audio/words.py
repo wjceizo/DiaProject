@@ -1,23 +1,19 @@
-from . import audio_api, Resource
+from ..schemas import AudioWordsSchema
+from . import audio, MethodView, abort
 from ..models import Word
 from .. import db
-from flask_restful import reqparse
 from sqlalchemy.exc import IntegrityError
 from flask import current_app
 
-parser = reqparse.RequestParser()
-parser.add_argument('stem', type=str, required=True, location='json', help='stem不能为空')
-parser.add_argument('meaning', required=True, type=str, location='json', help='meaning不能为空')
-parser.add_argument('comm', type=str, location='json')
 
-
-class Words(Resource):
+@audio.route("/words")
+class Words(MethodView):
     def get(self):
         return 'get Create page'
 
-    def post(self):
-        args = parser.parse_args()
-        word = Word(stem=args['stem'], meaning=args['meaning'], comm=args['comm']
+    @audio.arguments(AudioWordsSchema)
+    def post(self, word_data):
+        word = Word(stem=word_data['stem'], meaning=word_data['meaning'], comm=word_data['comm']
                     )
         try:
             db.session.add(word)
@@ -28,15 +24,12 @@ class Words(Resource):
             # 数据库出错回滚
             db.session.rollback()
             current_app.logger.error(e)
-            return {"status": 422, "message": "已存在该词汇"}, 422
+            abort(422, message='已存在该词汇')
 
         except Exception as e:
             # 数据库出错回滚
             db.session.rollback()
             current_app.logger.error(e)
-            return {"status": 404, "message": "数据库查询异常"}, 404
+            abort(404, message='数据库查询异常')
 
         return {"status": 201, "message": "录入成功"}, 201
-
-
-audio_api.add_resource(Words, '/words')

@@ -1,7 +1,8 @@
-from flask import Blueprint
-from flask_restful import Api, Resource
+from flask import request
+from flask.views import MethodView
+from flask_smorest import Blueprint, abort
 
-audio = Blueprint('audio', __name__)
-audio_api = Api(audio)
+
+audio = Blueprint("Audio", "audio", description="audio processing")
 
 from . import words

@@ -1,16 +1,17 @@
-from . import auth, MethodView,abort
+from . import auth, MethodView, abort
 from ..models import User
 from ..schemas import AuthSchema
-from flask_restful import reqparse
 from flask import current_app
+from flask_jwt_extended import jwt_required
 import json
 
 
 @auth.route("/userinfo")
 class UserView(MethodView):
 
+    @jwt_required()
     @auth.arguments(AuthSchema)
-    def get(self,page_data):
+    def get(self, page_data):
         get_item = {}
         user_item = []
         current_app.logger.info(page_data['order'])
@@ -36,7 +37,7 @@ class UserView(MethodView):
                                                                       error_out=False)
 
         else:
-            abort(403,message='order or order_by wrong')
+            abort(403, message='order or order_by wrong')
 
         count = User.query.count()
         order = page_data['order']
@@ -70,7 +71,4 @@ class UserView(MethodView):
                               'lang': user.lang})
             user_item.append(user_dict)
         get_item.update({'users': user_item})
-        json_item = json.dumps(get_item)
         return get_item, 200
-
-

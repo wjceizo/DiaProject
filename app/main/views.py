@@ -5,6 +5,7 @@ from flask_restful import reqparse
 from flask import current_app
 
 
+
 @mainpage.route("/")
 class Mainpage(MethodView):
     def get(self):

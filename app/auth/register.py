@@ -2,7 +2,6 @@ from . import auth, MethodView,abort
 from ..models import User
 from ..schemas import AuthRegisterSchema
 from .. import db
-from flask_restful import reqparse
 from sqlalchemy.exc import IntegrityError
 from flask import current_app
 
@@ -19,6 +18,7 @@ class RegisterView(MethodView):
 
 
     @auth.arguments(AuthRegisterSchema)
+    @auth.response(200,AuthRegisterSchema)
     def post(self,auth_data):
         user = User(username=auth_data['username'], email=auth_data['email'],
                     name=auth_data['name'], location=auth_data['location'], lang=auth_data['lang']
@@ -36,16 +36,10 @@ class RegisterView(MethodView):
             current_app.logger.error(e)
             abort(422, message='用户已注册')
 
-
         except Exception as e:
             # 数据库出错回滚
             db.session.rollback()
             current_app.logger.error(e)
             abort(404, message='数据库查询异常')
-
-        return {"status": 201, "message": "注册成功"}, 201
-
-
-
-
-
+        user = User.query.filter_by(username=user.username).first()
+        return user
