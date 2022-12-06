@@ -1,8 +1,9 @@
+from app.blocklist import BLOCKLIST
 from app.schemas import AuthLoginSchema
 from . import auth, MethodView, abort
 from ..models import User, Userlog
 from .. import db
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token,jwt_required,get_jwt
 from flask import current_app
 
 
@@ -30,3 +31,17 @@ class LoginView(MethodView):
             return {'status': 200, 'message': 'success', 'token': token}
         else:
             abort(403, message='wrong password')
+
+
+@auth.route("/logout")
+class LogoutView(MethodView):
+    
+    def get(self):
+        return {'help': 'LogoutView'}
+
+
+    @jwt_required()
+    def post(self):
+        jti = get_jwt()["jti"]
+        BLOCKLIST.add(jti)
+        return {"message": "Successfully logged out"}, 200
