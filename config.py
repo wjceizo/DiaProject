@@ -7,7 +7,8 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard_to_guess_string'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = "guessHAHA"
-    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=30) 
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
+    JWT_REFRESH_TOKEN_EXPIRES =  datetime.timedelta(days=30)
     PROPAGATE_EXCEPTIONS = True 
     API_TITLE = "Dialect Map REST API"
     API_VERSION = "v1"

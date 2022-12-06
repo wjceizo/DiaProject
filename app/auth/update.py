@@ -22,7 +22,7 @@ class UpdatePasswordView(MethodView):
         return {'help': 'Use put method to update password!'}, 200
 
     @auth.arguments(AuthupdatePasswordSchema)
-    @jwt_required()
+    @jwt_required(fresh=True)
     def put(self, pass_data):
         user = User.query.filter_by(
             id = get_jwt_identity()).first()

@@ -60,6 +60,18 @@ def create_app(config_name):
             ),
             401,
         )
+    
+    @jwt.needs_fresh_token_loader
+    def token_not_fresh_callback(jwt_header, jwt_payload):
+        return (
+            jsonify(
+                {
+                    "description": "The token is not fresh.",
+                    "error": "fresh_token_required",
+                }
+            ),
+            401,
+        )
 
     @app.before_first_request
     def create_tables():
