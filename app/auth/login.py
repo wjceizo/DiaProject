@@ -51,7 +51,6 @@ class LogoutView(MethodView):
     def get(self):
         return {'help': 'LogoutView'}
 
-
     @jwt_required(verify_type=False)
     def post(self):
         jti = get_jwt()["jti"]

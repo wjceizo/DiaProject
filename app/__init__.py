@@ -89,4 +89,7 @@ def create_app(config_name):
     from .user import user as user_blueprint
     app.register_blueprint(user_blueprint, url_prefix='/user')
 
+    from .user_record import user_record as user_record_blueprint
+    app.register_blueprint(user_record_blueprint, url_prefix='/userRecord')
+
     return app

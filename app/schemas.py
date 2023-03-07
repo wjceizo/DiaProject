@@ -3,10 +3,11 @@ from marshmallow import Schema, fields
 
 # 用户Schema
 
+
 class AuthRegisterSchema(Schema):
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True)
-    password = fields.Str(required=True,load_only=True)
+    password = fields.Str(required=True, load_only=True)
     email = fields.Str(required=True)
     name = fields.Str(required=True)
     location = fields.Str(required=True)
@@ -42,3 +43,9 @@ class AudioWordsSchema(Schema):
     meaning = fields.Str(required=True)
     comm = fields.Str()
 
+
+class AuthUploadRecordSchema(Schema):
+    record_file = fields.Str(required=True)
+    word_id = fields.Int(required=True)
+    snd_abs = fields.Str(required=True)
+    md5 = fields.Str(required=True)
