@@ -6,4 +6,4 @@ import os
 user_record = Blueprint("Record", "records", description="user process records ")
 basepath = os.path.abspath(os.getcwd())
 
-from . import create, register,delete
+from . import autoregister, create, delete

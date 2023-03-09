@@ -27,9 +27,9 @@ class Upload(MethodView):
         return {"help": "Upload the record"}
 
     @user_record.arguments(AuthUploadRecordSchema)
-    # @jwt_required(fresh=True)
+    @jwt_required(fresh=True)
     def post(self, record_data):
-        # user = User.query.filter_by(id=get_jwt_identity()).first()
+        user = User.query.filter_by(id=get_jwt_identity()).first()
         try:
             recordData = base64.b64decode(record_data["record_file"])
             userid = str(time.time()).split('.')[0]

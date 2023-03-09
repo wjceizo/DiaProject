@@ -9,8 +9,8 @@ import datetime as dat
 
 class Permission:
     USER = 1
-    #MEMBER = 2
-    ADMIN = 2 # 2->4 (TODO)
+    MEMBER = 2
+    ADMIN = 4 
 
 
 class Role(db.Model):

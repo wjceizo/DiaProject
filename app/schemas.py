@@ -49,3 +49,7 @@ class AuthUploadRecordSchema(Schema):
     word_id = fields.Int(required=True)
     snd_abs = fields.Str(required=True)
     md5 = fields.Str(required=True)
+
+class AutoRegisterSchema(Schema):
+    location = fields.Str(required=True)
+    language = fields.Str(required=True)
