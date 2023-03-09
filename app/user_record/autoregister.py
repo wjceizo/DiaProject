@@ -13,7 +13,6 @@ class AutoregisterView(MethodView):
         return {"help": "AutoregisterView"}
 
     @user_record.arguments(AutoRegisterSchema)
-    @user_record.response(200, AuthRegisterSchema)
     def post(self, user_data):
         adv, name, extrastr, password = getRandomUserName()
         username = adv + name + extrastr
@@ -43,18 +42,21 @@ class AutoregisterView(MethodView):
             current_app.logger.error(e)
             abort(404, message="数据库查询异常")
         user = User.query.filter_by(username=user.username).first()
-        return(user)
-        # userid = user.id
-        # access_token = create_access_token(identity=user.id, fresh=True)
-        # refresh_token = create_refresh_token(user.id)
-        # user_logs = Userlog(user_id=userid, location=user_data["location"])
-        # try:
-        #     db.session.add(user_logs)
-        #     db.session.commit()  # SQLAlchemy用
-        # except Exception as e:
-        #     # 数据库出错回滚
-        #     db.session.rollback()
-        #     current_app.logger.error(e)
-        #     abort(404, message='数据库查询异常')
-        # return {'message': 'success', 'access_token': access_token,'refresh_token':refresh_token},200
+        userid = user.id
+        access_token = create_access_token(identity=user.id, fresh=True)
+        refresh_token = create_refresh_token(user.id)
+        user_logs = Userlog(user_id=userid, location=user_data["location"])
+        current_app.logger.info("here 1")
+        
+        try:
+            db.session.add(user_logs)
+            db.session.commit()  # SQLAlchemy用
+            current_app.logger.info("here 2")
+
+        except Exception as e:
+            # 数据库出错回滚
+            db.session.rollback()
+            current_app.logger.error(e)
+            abort(404, message='数据库查询异常')           
+        return {'message': 'success', 'access_token': access_token,'refresh_token':refresh_token},200
 

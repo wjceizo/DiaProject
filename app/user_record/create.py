@@ -32,7 +32,6 @@ class Upload(MethodView):
         user = User.query.filter_by(id=get_jwt_identity()).first()
         try:
             recordData = base64.b64decode(record_data["record_file"])
-            userid = str(time.time()).split('.')[0]
             upload_path = os.path.join(
                 basepath,
                 "records",
@@ -83,7 +82,7 @@ class Update(MethodView):
                     basepath,
                     "records",
                     secure_filename(
-                        str(user.id) + "_" + str(record_data["word_id"]) + "new.mp4"
+                        str(user.id) + "_" + str(record_data["word_id"]) + ".mp4"
                     ),
                 )
                 if checksum(recordData, record_data["md5"]):
