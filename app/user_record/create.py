@@ -3,6 +3,7 @@ from ..models import Userwordrel, User
 from . import user_record, basepath, MethodView, abort
 from .. import db
 from datetime import datetime
+import time
 from flask import current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import base64, os
@@ -26,12 +27,12 @@ class Upload(MethodView):
         return {"help": "Upload the record"}
 
     @user_record.arguments(AuthUploadRecordSchema)
-    @jwt_required(fresh=True)
+    # @jwt_required(fresh=True)
     def post(self, record_data):
-        user = User.query.filter_by(id=get_jwt_identity()).first()
+        # user = User.query.filter_by(id=get_jwt_identity()).first()
         try:
             recordData = base64.b64decode(record_data["record_file"])
-            current_app.logger.info(type(user.id))
+            userid = str(time.time()).split('.')[0]
             upload_path = os.path.join(
                 basepath,
                 "records",

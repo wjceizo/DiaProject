@@ -9,7 +9,8 @@ import datetime as dat
 
 class Permission:
     USER = 1
-    ADMIN = 2
+    #MEMBER = 2
+    ADMIN = 2 # 2->4 (TODO)
 
 
 class Role(db.Model):
@@ -59,7 +60,7 @@ class User(db.Model):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role_id is None:
-            self.role_id = 2
+            self.role_id = 1
 
     def __repr__(self):
         return self.username
