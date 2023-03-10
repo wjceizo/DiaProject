@@ -46,12 +46,10 @@ class AutoregisterView(MethodView):
         access_token = create_access_token(identity=user.id, fresh=True)
         refresh_token = create_refresh_token(user.id)
         user_logs = Userlog(user_id=userid, location=user_data["location"])
-        current_app.logger.info("here 1")
         
         try:
             db.session.add(user_logs)
             db.session.commit()  # SQLAlchemy用
-            current_app.logger.info("here 2")
 
         except Exception as e:
             # 数据库出错回滚

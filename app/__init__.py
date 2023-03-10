@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import *
 from config import config
 from .blocklist import BLOCKLIST
 
@@ -17,6 +18,7 @@ def create_app(config_name):
     db.init_app(app)
     api = Api(app)
     jwt = JWTManager(app)
+    CORS(app, supports_credentials=True);
 
     @jwt.token_in_blocklist_loader
     def check_if_token_in_blocklist(jwt_header, jwt_payload):
