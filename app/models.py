@@ -145,3 +145,57 @@ class Difftype(db.Model):
 
     def __repr__(self):
         return '<Difftype %r>' % self.name
+
+
+class Province(db.Model):
+    __tablename__ = 'province'
+    _id = db.Column(db.String(64), primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    province_id = db.Column(db.String(64), unique=True)
+
+    def __repr__(self):
+        return '<Province_name %r>' % self.name
+    
+    def to_dict(self):
+        return {'name':self.name, 'id':self.province_id}
+        
+
+
+class City(db.Model):
+    __tablename__ = 'city'
+    _id = db.Column(db.String(64), primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    province_id = db.Column(db.String(64), unique=True)
+    city_id = db.Column(db.String(64), unique=True)
+
+    def __repr__(self):
+        return '<City_name %r>' % self.name
+    
+    def to_dict(self):
+        return {'name':self.name, 'id':self.city_id}
+
+class County(db.Model):
+    __tablename__ = 'county'
+    _id = db.Column(db.String(64), primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    city_id = db.Column(db.String(64), unique=True)
+    county_id = db.Column(db.String(64), unique=True)
+
+    def __repr__(self):
+        return '<County_name %r>' % self.name
+    
+    def to_dict(self):
+        return {'name':self.name, 'id':self.county_id}
+
+class Town(db.Model):
+    __tablename__ = 'town'
+    _id = db.Column(db.String(64), primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    county_id = db.Column(db.String(64), unique=True)
+    town_id = db.Column(db.String(64), unique=True)
+
+    def __repr__(self):
+        return '<Town_name %r>' % self.name
+    
+    def to_dict(self):
+        return {'name':self.name, 'id':self.town_id}
