@@ -86,8 +86,8 @@ def create_app(config_name):
     from .audio import audio as audio_blueprint
     api.register_blueprint(audio_blueprint, url_prefix='/audio')
 
-    from .user import user as user_blueprint
-    app.register_blueprint(user_blueprint, url_prefix='/user')
+    # from .user import user as user_blueprint
+    # app.register_blueprint(user_blueprint, url_prefix='/user')
 
     from .user_record import user_record as user_record_blueprint
     app.register_blueprint(user_record_blueprint, url_prefix='/userRecord')

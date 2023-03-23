@@ -44,9 +44,10 @@ class Upload(MethodView):
                 snd_path=upload_path,
                 snd_abs=record_data["snd_abs"],
             )
-            if checksum(recordData, record_data["md5"]):
-                with open(upload_path, "wb") as out_record:
-                    out_record.write(recordData)
+            # if checksum(recordData, record_data["md5"]):
+            with open(upload_path, "wb") as out_record:
+                out_record.write(recordData)
+                
         except Exception as e:
             current_app.logger.error(e)
             return {"status": 400, "message": "未成功上传录音文件"}, 400

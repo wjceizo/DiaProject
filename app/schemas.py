@@ -47,8 +47,8 @@ class AudioWordsSchema(Schema):
 class AuthUploadRecordSchema(Schema):
     record_file = fields.Str(required=True)
     word_id = fields.Int(required=True)
-    snd_abs = fields.Str(required=True)
-    md5 = fields.Str(required=True)
+    snd_abs = fields.Str()
+    # md5 = fields.Str(required=True)
 
 class AutoRegisterSchema(Schema):
     location = fields.Str(required=True)
