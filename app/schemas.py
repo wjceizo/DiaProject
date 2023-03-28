@@ -12,6 +12,8 @@ class AuthRegisterSchema(Schema):
     name = fields.Str(required=True)
     location = fields.Str(required=True)
     lang = fields.Str(required=True)
+    sex = fields.Str(required=True)
+    work = fields.Str()
 
 
 class AuthLoginSchema(Schema):

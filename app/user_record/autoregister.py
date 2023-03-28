@@ -14,7 +14,7 @@ class AutoregisterView(MethodView):
 
     @user_record.arguments(AutoRegisterSchema)
     def post(self, user_data):
-        adv, name, extrastr, password = getRandomUserName()
+        adv, name, extrastr, password, sex, work = getRandomUserName()
         username = adv + name + extrastr
         user = User(
             username=username,
@@ -22,6 +22,8 @@ class AutoregisterView(MethodView):
             name=name,
             location=user_data["location"],
             lang=user_data["language"],
+            sex=sex,
+            work=work
         )
         user.password = password
         try:

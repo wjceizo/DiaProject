@@ -31,6 +31,7 @@ class DevelopmentConfig(Config):
         'sqlite:///' + os.path.join(basedir, 'Diadata.sqlite')
 
 
+
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
@@ -38,8 +39,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:Wjc112299@localhost/DiaProject'
 
 
 config = {

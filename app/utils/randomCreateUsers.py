@@ -381,4 +381,6 @@ def getRandomUserName():
     name = names[secrets.randbelow(len(names))]
     safestr = secrets.token_hex(4)
     password = secrets.token_urlsafe(16)
-    return adv, name, safestr, password
+    sex = 'Na'
+    work = 'Na'
+    return adv, name, safestr, password, sex, work
