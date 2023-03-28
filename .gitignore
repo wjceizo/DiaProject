@@ -1,5 +1,29 @@
+#Flask
 records
 .flaskenv
-.idea
 __pycache__
-Vue
+Diadata.sqlite
+
+#Vue
+
+dialect-recorder/node_modules
+dialect-recorder/README.md
+dialect-recorder/dist
+# local env files
+dialect-recorder/.env.local
+dialect-recorder/.env.*.local
+
+# Log files
+dialect-recorder/npm-debug.log*
+dialect-recorder/yarn-debug.log*
+dialect-recorder/yarn-error.log*
+dialect-recorder/pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
