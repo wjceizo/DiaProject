@@ -2,7 +2,7 @@
 records
 .flaskenv
 __pycache__
-Diadata.sqlite
+/Diadata.sqlite
 
 #Vue
 
