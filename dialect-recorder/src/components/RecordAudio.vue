@@ -137,8 +137,7 @@ export default {
                 const response = await axios.post('/api/userRecord/upload', {
                     record_file: base64String,
                     word_id: this.wordId,
-                    snd_abs: this.stem,
-
+                    audio_feat: this.stem,
                 }, {
                     headers: {
                         'Authorization': `Bearer ${this.accessToken}`,

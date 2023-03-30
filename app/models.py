@@ -64,7 +64,7 @@ class User(db.Model):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role_id is None:
-            self.role_id = 1
+            self.role_id = 3
 
 
     def __repr__(self):
@@ -106,9 +106,10 @@ class Word(db.Model):
     stem = db.Column(db.String(128), unique=True, index=True, nullable=False)
     meaning = db.Column(db.String(128))
     lang = db.Column(db.String(32), nullable=False)
+    prompt = db.Column(db.String(64))
     comm = db.Column(db.String(64))
-    pic_path = db.Column(db.String(128), nullable=False)
-    trans = db.Column(db.String(64))
+    image_path = db.Column(db.String(128))
+    translation = db.Column(db.String(64))
     user_word_rels = db.relationship("Userwordrel", backref="word")
     survey_word_rels = db.relationship("Surveywordrel", backref="word")
 
@@ -121,13 +122,14 @@ class Userwordrel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), index=True)
     word_id = db.Column(db.Integer, db.ForeignKey("words.id"), index=True)
-    snd_path = db.Column(db.String(128), unique=True)
-    snd_abs = db.Column(db.String(128))
+    transcript = db.Column(db.String(128))
+    audio_path = db.Column(db.String(128), unique=True)
+    audio_feat = db.Column(db.String(128))
     created_at = db.Column(db.DateTime(), default=datetime.now)
     update_at = db.Column(db.DateTime(), default=datetime.now)
 
     def __repr__(self):
-        return "(%s, %s, %s, %s)" % (self.id, self.user_id, self.word_id, self.snd_path)
+        return "(%s, %s, %s, %s)" % (self.id, self.user_id, self.word_id, self.audio_path)
 
 
 class Survey(db.Model):

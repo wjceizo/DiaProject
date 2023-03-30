@@ -43,13 +43,18 @@ class AuthSchema(Schema):
 class AudioWordsSchema(Schema):
     stem = fields.Str(required=True)
     meaning = fields.Str(required=True)
-    comm = fields.Str()
+    lang = fields.Str(required=True)
+    translation = fields.Str()
+    prompt = fields.Str()
+
+class AudioImageSchema(Schema):
+    image_file = fields.Str(required=True)
 
 
 class AuthUploadRecordSchema(Schema):
     record_file = fields.Str(required=True)
     word_id = fields.Int(required=True)
-    snd_abs = fields.Str()
+    audio_feat = fields.Str()
     # md5 = fields.Str(required=True)
 
 class AutoRegisterSchema(Schema):

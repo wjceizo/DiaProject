@@ -37,14 +37,12 @@ class Upload(MethodView):
                 "records",
                 secure_filename(str(user.id) + "_" + str(record_data["word_id"]) + ".mp4"),
             )
-            current_app.logger.info("ee")
             userwordrel = Userwordrel(
                 user_id=user.id,
                 word_id=record_data["word_id"],
-                snd_path=upload_path,
-                snd_abs=record_data["snd_abs"],
+                audio_path=upload_path,
+                audio_feat=record_data["audio_feat"],
             )
-            # if checksum(recordData, record_data["md5"]):
             with open(upload_path, "wb") as out_record:
                 out_record.write(recordData)
                 
@@ -90,7 +88,7 @@ class Update(MethodView):
                     with open(update_path, "wb") as out_record:
                         out_record.write(recordData)
                 userwordrel.update_at = datetime.now()
-                userwordrel.snd_abs = record_data["snd_abs"]
+                userwordrel.audio_feat = record_data["audio_feat"]
                 userwordrel.verified = True
             except Exception as e:
                 current_app.logger.error(e)
