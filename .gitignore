@@ -27,3 +27,4 @@ backend/.idea
 *.njsproj
 *.sln
 *.sw?
+*.__pycache__
