@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  # first container
+  backend:
+    # look for dockerfile and build the container
+    build: ./backend
+    container_name: backend
+    restart: always
+    # set enviornemt variables
+    environment:
+      - APP_NAME=Diapp
+    #  mount the volumes so we can change code and hot reload
+    volumes:
+      - './backend:/backend'
+    #  expose port on the container, only to other containers
+    ports:
+      - 5000:5000
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    #  mount the volumes so we can change code and hot reload
+    volumes:
+      - './frontend:/frontend'
+    ports:
+      - "8080:8080"

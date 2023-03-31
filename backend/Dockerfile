@@ -8,7 +8,7 @@ WORKDIR /backend
 ADD . /backend
 
 # Install the python dependencies
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
 
-# start the uWSGI
-CMD ["uwsgi", "app.ini"]
+# start 
+CMD [ "flask", "run", "--host=0.0.0.0"]

@@ -31,7 +31,7 @@ class Words(MethodView):
     @jwt_required(fresh=True)
     def post(self, word_data):
         user = User.query.filter_by(id=get_jwt_identity()).first()
-        if user.id != 1:
+        if user.role_id != 1:
             return {"status": 403, "message": "权限不足"}, 403
         current_app.logger.info(word_data)
         word = Word(
@@ -45,7 +45,6 @@ class Words(MethodView):
 
         try:
             db.session.add(word)
-            # db.commit()
             db.session.commit()  # SQLAlchemy用
 
         except IntegrityError as e:
@@ -69,7 +68,7 @@ class UploadImage(MethodView):
     @jwt_required(fresh=True)
     def post(self, image_data, word_id):
         user = User.query.filter_by(id=get_jwt_identity()).first()
-        if user.id != 1:
+        if user.role_id != 1:
             return {"status": 403, "message": "权限不足"}, 403
         try:
             word = Word.query.filter_by(id=word_id).first()

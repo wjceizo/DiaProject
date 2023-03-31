@@ -49,4 +49,4 @@ class RegisterView(MethodView):
             current_app.logger.error(e)
             abort(404, message="数据库查询异常")
         user = User.query.filter_by(username=user.username).first()
-        return user
+        return user,201
