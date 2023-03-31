@@ -1,26 +1,26 @@
 #Flask
-records
-.flaskenv
-__pycache__
-/Diadata.sqlite
-
+backend/records
+backend/.flaskenv
+backend/__pycache__
+backend/Diadata.sqlite
+backend/jsontest
 #Vue
 
-dialect-recorder/node_modules
-dialect-recorder/README.md
-dialect-recorder/dist
+frontend/node_modules
+frontend/README.md
+frontend/dist
 # local env files
-dialect-recorder/.env.local
-dialect-recorder/.env.*.local
+frontend/.env.local
+frontend/.env.*.local
 
 # Log files
-dialect-recorder/npm-debug.log*
-dialect-recorder/yarn-debug.log*
-dialect-recorder/yarn-error.log*
-dialect-recorder/pnpm-debug.log*
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
 
 # Editor directories and files
-.idea
+backend/.idea
 .vscode
 *.suo
 *.ntvs*

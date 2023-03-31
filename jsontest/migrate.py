@@ -1,7 +1,0 @@
-db.drop_all()
-db.create_all()
-user_role = Role(name='User',permissions=1)
-member_role = Role(name='Member',permissions=2)
-admin_role = Role(name='Admin',permissions=4)
-db.session.add_all([admin_role,member_role, user_role])
-db.session.commit()
