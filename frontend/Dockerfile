@@ -1,14 +1,13 @@
-FROM node:lts-alpine
+FROM node:lts-alpine AS builder
 
 WORKDIR /frontend
 
 ADD . /frontend
 
-# install project dependencies
-RUN npm install -g @vue/cli
+RUN npm i && npx vite build
 
-RUN npm install
+FROM caddy:2.6-alpine
 
-EXPOSE 8080
+RUN sed -i 's|/usr/share/caddy|/var/www/html|g' /etc/caddy/Caddyfile
 
-CMD [ "npm", "run", "serve" ]
+COPY --from=builder /frontend/dist /var/www/html
