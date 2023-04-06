@@ -1,22 +1,21 @@
 <template>
-    <div style="width: 50%; margin: auto;">
-        <h2>User Registration</h2>
+    <div class="mobile-container">
+        <h2>方言调查</h2>
         <form @submit.prevent="registerUser" class="needs-validation" novalidate>
             <div class="form-group">
-                <label for="province">Province:</label>
+                <label for="province">省:</label>
                 <select id="province" v-model="province" class="form-control" required>
-                    <option value="" disabled>Select Province</option>
+                    <option value="" disabled>请选择你所在的省</option>
                     <option v-for="p in provinces" :key="p.id" :value="p">{{ p.name }}</option>
                 </select>
                 <div class="invalid-feedback">
                     Please select a province.
                 </div>
             </div>
-
             <div class="form-group">
-                <label for="city">City:</label>
+                <label for="city">市:</label>
                 <select id="city" v-model="city" class="form-control" required>
-                    <option value="" disabled>Select City</option>
+                    <option value="" disabled>请选择你所在的市</option>
                     <option v-for="c in selectedProvinceCities" :key="c.name" :value="c">{{ c.name }}</option>
                 </select>
                 <div class="invalid-feedback">
@@ -25,9 +24,9 @@
             </div>
 
             <div class="form-group">
-                <label for="county">County:</label>
+                <label for="county">区:</label>
                 <select id="county" v-model="county" class="form-control" required>
-                    <option value="" disabled>Select County</option>
+                    <option value="" disabled>请选择你所在的区</option>
                     <option v-for="c in selectedCityCounties" :key="c" :value="c">{{ c.name }}</option>
                 </select>
                 <div class="invalid-feedback">
@@ -36,9 +35,9 @@
             </div>
 
             <div class="form-group">
-                <label for="town">Town:</label>
+                <label for="town">街道:</label>
                 <select id="town" v-model="town" class="form-control" required :disabled="!hasTown">
-                    <option value="" disabled>Select Town</option>
+                    <option value="" disabled>请选择你所在的街道</option>
                     <option v-for="t in selectedCountyTowns" :key="t.id" :value="t">{{ t.name }}</option>
                 </select>
                 <div class="invalid-feedback">
@@ -47,9 +46,9 @@
             </div>
 
             <div class="form-group">
-                <label for="language">Dialect Category:</label>
+                <label for="language">方言:</label>
                 <select id="language" v-model="language" class="form-control" required>
-                    <option value="" disabled>Select Dialect Category</option>
+                    <option value="" disabled>请选择你的方言</option>
                     <option value="Jin">晋方言</option>
                     <option value="Wu">吴方言</option>
                     <option value="Min">闽方言</option>
@@ -72,10 +71,52 @@
                     Please select a dialect category.
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" :disabled="!isFormValid()">Submit</button>
+            <button type="submit" class="btn btn-primary" :disabled="!isFormValid()">确认</button>
         </form>
+
     </div>
 </template>
+
+<style scoped>
+.mobile-container {
+    max-width: 100%;
+    padding: 16px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+option[disabled] {
+    color: #a5a5a5;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    margin-top: 16px;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+}
+</style>
 
 
 <script>
@@ -184,8 +225,8 @@ export default {
             }
         },
         isFormValid() {
-            
-            return this.language && (this.hasTown && this.town || !this.hasTown) ;
+
+            return this.language && (this.hasTown && this.town || !this.hasTown);
         },
     },
 };

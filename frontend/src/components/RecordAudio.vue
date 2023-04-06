@@ -1,22 +1,56 @@
 <template>
-    <div>
-        <h1>Upload Recording</h1>
+    <div class="mobile-container">
+        <h1>上传方言</h1>
         <h3>完成度：{{ (wordId / 3 * 100).toFixed(0) }}%</h3>
         <div class="img-container">
             <img :src="img" alt="Dialect image" />
         </div>
         <p>{{ desc }}</p>
-        <button class="btn btn-primary" @click="startRecording" v-if="!isCompleted">{{ isRecording ? 'End Recording' : recorded ? 'UpdateRecord' : 'Record' }}</button>
-        <button class="btn btn-primary" @click="next" :disabled="!recorded" v-if="!isCompleted">
-            {{ wordId < 3 ? 'Next' : 'Complete' }} </button>
+        <button class="btn btn-primary" @click="startRecording" v-if="!isCompleted">{{ isRecording ? '结束录音' : recorded ?
+            '更新录音' : '录音' }}</button>
+        <button class="btn btn-primary" @click="next" :disabled="!recorded" v-if="!isCompleted" style="margin-top: 16px;">
+            {{ wordId < 3 ? '下一个' : '完成' }} </button>
     </div>
 </template>
-
 <style scoped>
-.img-container img {
-    max-height: 50vh;
+.mobile-container {
+    max-width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1,
+h3 {
+    margin-top: 0;
+}
+
+.img-container {
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
-    width: auto;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-bottom: 16px;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
 }
 </style>
 
