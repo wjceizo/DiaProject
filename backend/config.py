@@ -1,10 +1,15 @@
 import os
 import datetime
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+from dotenv import load_dotenv
+dotenv_path = os.path.join(os.path.abspath(os.getcwd()), '.flaskenv')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard_to_guess_string'
+    SECRET_KEY = os.getenv('SECRET_KEY') or 'hard_to_guess_string'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = "guessHAHA"
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
@@ -27,10 +32,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'Diadata.sqlite')
-   
+    SQLALCHEMY_DATABASE_URI = os.getenv('DEV_DATABASE_URL')
 
 
 

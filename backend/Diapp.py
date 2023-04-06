@@ -3,9 +3,14 @@ import click
 from flask_migrate import Migrate
 from app import create_app, db
 from app.models import User, Role, Permission, Userlog, Userwordrel, Word, Diff, Difftype,Survey,Surveywordrel
+from dotenv import load_dotenv
 
-# app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-app = create_app('development')
+basedir = os.path.abspath(os.path.dirname(__file__))
+dotenv_path = os.path.join(os.path.abspath(os.getcwd()), '.flaskenv')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+app = create_app(os.getenv('FLASK_ENV') or 'default')
 
 # migrate = Migrate(app, db)
 
