@@ -8,10 +8,8 @@
         <p>{{ desc }}</p>
         <button class="btn btn-primary" @click="startRecording" v-if="!isCompleted">{{ isRecording ? '结束录音' : recorded ?
             '更新录音' : '录音' }}</button>
-
         <button class="btn btn-primary" @click="playRecording" v-if="recorded" style="margin-top: 16px;">播放录音</button>
-        <audio ref="audioPlayer" controls :src="recorded ? audioUrl : null" autoplay></audio>
-        
+        <audio ref="audioPlayer"></audio>
         <button class="btn btn-primary" @click="next" :disabled="!recorded" v-if="!isCompleted" style="margin-top: 16px;">
             {{ wordId < 3 ? '下一个' : '完成' }} </button>
     </div>
@@ -152,6 +150,7 @@ export default {
             if (this.recorded) {
                 this.audioUrl = URL.createObjectURL(this.audioBlob);
                 const audioPlayer = this.$refs.audioPlayer;
+                audioPlayer.src = this.audioUrl;
                 audioPlayer.play();
             }
         },
