@@ -106,10 +106,10 @@ class Word(db.Model):
     stem = db.Column(db.String(128), unique=True, index=True, nullable=False)
     meaning = db.Column(db.String(128))
     lang = db.Column(db.String(32), nullable=False)
-    prompt = db.Column(db.String(64))
+    prompt = db.Column(db.String(128))
     comm = db.Column(db.String(64))
     image_path = db.Column(db.String(128))
-    translation = db.Column(db.String(64))
+    translation = db.Column(db.String(128))
     user_word_rels = db.relationship("Userwordrel", backref="word")
     survey_word_rels = db.relationship("Surveywordrel", backref="word")
 

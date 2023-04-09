@@ -35,7 +35,7 @@ class Upload(MethodView):
             upload_path = os.path.join(
                 basepath,
                 "records",
-                secure_filename(str(user.id) + "_" + str(record_data["word_id"]) + ".mp4"),
+                secure_filename(str(user.id) + "_" + str(record_data["word_id"]) + ".wav"),
             )
             userwordrel = Userwordrel(
                 user_id=user.id,

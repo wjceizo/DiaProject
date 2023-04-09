@@ -34,18 +34,22 @@ class Words(MethodView):
         if user.role_id != 1:
             return {"status": 403, "message": "权限不足"}, 403
         current_app.logger.info(word_data)
+        
         word = Word(
-            stem=word_data["stem"], meaning=word_data["meaning"], lang=word_data["lang"]
+            stem=word_data["stem"], meaning=word_data["meaning"]
         )
+
+        if "lang" in word_data:
+            word.lang = word_data["lang"]
         if "translation" in word_data:
             word.translation = word_data["translation"]
         if "prompt" in word_data:
-            word.translation = word_data["prompt"]
+            word.prompt = word_data["prompt"]
 
 
         try:
             db.session.add(word)
-            db.session.commit()  # SQLAlchemy用
+            db.session.commit()  
 
         except IntegrityError as e:
             # 数据库出错回滚
@@ -110,4 +114,5 @@ class WordById(MethodView):
             "stemtranslation": word.translation,
             "img": convert_base64(word.id),
             "desc": word.meaning,
+            "prompt": word.prompt,
         }
