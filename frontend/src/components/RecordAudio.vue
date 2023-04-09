@@ -1,17 +1,33 @@
 <template>
     <div class="mobile-container">
-        <h1>上传方言</h1>
-        <h3>完成度：{{ (wordId / 3 * 100).toFixed(0) }}%</h3>
-        <div class="img-container">
-            <img :src="img" alt="Dialect image" />
+        <h1>录制您的声音</h1>
+        <h3>完成度：{{ wordId ? ((wordId - 1) / 25 * 100).toFixed(0) : 0 }}%</h3>
+        <div class="data-container" v-if="!isLoading">
+            <p>{{ prompt }}</p>
+            <div class="btn-container"><button class="hint" v-if="!clickedStem" @click="showStem">提示</button></div>
+            <div class="hint-text" v-if="clickedStem">
+                <p>{{ stem }}</p>
+            </div>
+            <div class="img-container">
+                <img :src="img" alt="Dialect image" />
+            </div>
+            <p class="desc">{{ desc }}</p>
         </div>
-        <p>{{ desc }}</p>
-        <button class="btn btn-primary" @click="startRecording" v-if="!isCompleted">{{ isRecording ? '结束录音' : recorded ?
-            '更新录音' : '录音' }}</button>
-        <button class="btn btn-primary" @click="playRecording" v-if="recorded" style="margin-top: 16px;">播放录音</button>
-        <audio ref="audioPlayer"></audio>
-        <button class="btn btn-primary" @click="next" :disabled="!recorded" v-if="!isCompleted" style="margin-top: 16px;">
-            {{ wordId < 3 ? '下一个' : '完成' }} </button>
+        <div v-if="isLoading">
+            <p>正在加载...</p>
+        </div>
+        <div class="recorder-container">
+            <button id="btn-record" class="btn" :class="{ 'btn-primary': !isRecording, 'btn-danger': isRecording }"
+                @click="startRecording" v-if="!isCompleted">
+                {{ isRecording ? '结束录音' : recorded ? '重新录制' : '录音' }}
+            </button>
+            <span style="display:inline-block;width: 3em" v-if="recorded"></span>
+            <button id="btn-replay" class="btn btn-primary" @click="playRecording" v-if="recorded">播放录音</button>
+            <audio ref="audioPlayer"></audio>
+        </div>
+
+        <button id="btn-submit" class="btn btn-primary" @click="next" :disabled="!recorded" v-if="!isCompleted">
+            {{ wordId < 25 ? '下一个' : '完成' }} </button>
     </div>
 </template>
 <style scoped>
@@ -27,6 +43,11 @@
 h1,
 h3 {
     margin-top: 0;
+}
+
+.btn.btn-danger {
+    background-color: red !important;
+    border-color: red !important;
 }
 
 .img-container {
@@ -46,13 +67,74 @@ img {
 button {
     display: block;
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 0;
     font-size: 16px;
     padding: 12px;
     border-radius: 4px;
     border: none;
     background-color: #007bff;
     color: #fff;
+}
+
+div.data-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+div.recorder-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-record {
+    width: 100%;
+}
+
+#btn-submit {
+    width: 100%;
+    margin-top: 16px;
+}
+
+button.hint {
+    background-color: #6c757d;
+    width: 15%;
+    min-width: fit-content;
+    height: 3em;
+    margin: 0.5rem auto;
+}
+
+div.hint-text {
+    font-size: 16px;
+    color: #6c757d;
+    height: 3em;
+    display: flex;
+    margin: 0.5rem auto;
+}
+
+div.hint-text p {
+    margin: auto;
+    align-items: center;
+}
+
+.desc {
+    margin-top: 0.3em;
+    display: flex;
+    font-size: 16px;
+    color: #6c757d;
+    height: 2.5em;
 }
 </style>
 
@@ -73,10 +155,12 @@ export default {
 
     data() {
         return {
-            audioUrl: '',
             img: '',
             desc: '',
             stem: '',
+            prompt: '',
+            isLoading: false,
+            clickedStem: false,
             isRecording: false,
             mediaRecorder: null,
             recordedChunks: [],
@@ -90,13 +174,20 @@ export default {
     },
     methods: {
 
+        showStem() {
+            this.clickedStem = true;
+        },
+
 
         async fetchWord() {
+            this.isLoading = true;
             try {
                 const response = await axios.get(`/api/audio/word/${this.wordId}`);
                 this.img = response.data.img;
                 this.desc = response.data.desc;
+                this.prompt = response.data.prompt;
                 this.stem = response.data.stem;
+                this.isLoading = false;
             } catch (error) {
                 console.error('Error fetching word:', error);
             }
@@ -107,8 +198,12 @@ export default {
             if (!this.isRecording) {
                 this.isRecording = true;
                 this.recordedChunks = [];
-
-                const mediaConstraints = { audio: true };
+                var mediaConstraints = {
+                    audio: {
+                        sampleRate: 44100,
+                        sampleSize: 16,
+                    }
+                };
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     navigator.mediaDevices.getUserMedia(mediaConstraints)
                         .then((stream) => {
@@ -122,7 +217,7 @@ export default {
                             });
 
                             this.mediaRecorder.addEventListener('stop', () => {
-                                this.audioBlob = new Blob(this.recordedChunks, { type: 'audio/webm' });
+                                this.audioBlob = new Blob(this.recordedChunks, { type: 'audio/wav' });
                                 // Now you can upload or update the recorded audio.
                                 this.recorded = true;
                             });
@@ -145,7 +240,7 @@ export default {
                 }
             }
         },
-        
+
         playRecording() {
             if (this.recorded) {
                 this.audioUrl = URL.createObjectURL(this.audioBlob);
@@ -178,7 +273,6 @@ export default {
             try {
 
                 const base64Audio = await this.blobToBase64(this.audioBlob);
-                // const md5 = await this.calculateMD5(this.audioBlob);
                 const base64String = base64Audio.split(',')[1];
                 const response = await axios.post('/api/userRecord/upload', {
                     record_file: base64String,
@@ -209,14 +303,14 @@ export default {
             await this.uploadRecording();
             this.recorded = false
 
-            if (this.wordId < 3) {
+            if (this.wordId < 25) {
                 this.wordId++;
-                console.log("wordId:" + this.wordId)
+                this.clickedStem = false;
+                console.log("wordId:" + this.wordId);
                 localStorage.setItem('wordId', this.wordId);
                 this.fetchWord();
             } else {
-                this.isCompleted = true
-                // this.$emit('recordings-completed');
+                this.isCompleted = true;
                 this.$router.push('/record-complete');
             }
         },

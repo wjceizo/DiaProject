@@ -3,7 +3,7 @@
         <h2>方言调查</h2>
         <form @submit.prevent="registerUser" class="needs-validation" novalidate>
             <div class="form-group">
-                <label for="province">省:</label>
+                <label for="province">省</label>
                 <select id="province" v-model="province" class="form-control" required>
                     <option value="" disabled>请选择你所在的省</option>
                     <option v-for="p in provinces" :key="p.id" :value="p">{{ p.name }}</option>
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="city">市:</label>
+                <label for="city">市</label>
                 <select id="city" v-model="city" class="form-control" required>
                     <option value="" disabled>请选择你所在的市</option>
                     <option v-for="c in selectedProvinceCities" :key="c.name" :value="c">{{ c.name }}</option>
@@ -24,7 +24,7 @@
             </div>
 
             <div class="form-group">
-                <label for="county">区:</label>
+                <label for="county">区</label>
                 <select id="county" v-model="county" class="form-control" required>
                     <option value="" disabled>请选择你所在的区</option>
                     <option v-for="c in selectedCityCounties" :key="c" :value="c">{{ c.name }}</option>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-group">
-                <label for="town">街道:</label>
+                <label for="town">街道</label>
                 <select id="town" v-model="town" class="form-control" required :disabled="!hasTown">
                     <option value="" disabled>请选择你所在的街道</option>
                     <option v-for="t in selectedCountyTowns" :key="t.id" :value="t">{{ t.name }}</option>
@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group">
-                <label for="language">方言:</label>
+                <label for="language">方言</label>
                 <select id="language" v-model="language" class="form-control" required>
                     <option value="" disabled>请选择你的方言</option>
                     <option value="Jin">晋方言</option>
@@ -219,6 +219,7 @@ export default {
 
                 if (response.data.message === 'success') {
                     this.$store.dispatch('setAccessToken', response.data.access_token);
+                    this.$router.replace('/record-audio');
                 }
             } catch (error) {
                 console.error('Error registering user:', error);
