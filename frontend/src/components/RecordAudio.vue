@@ -1,7 +1,7 @@
 <template>
     <div class="mobile-container">
         <h1>录制您的声音</h1>
-        <h3>完成度：{{ wordId ? ((wordId - 1) / 25 * 100).toFixed(0) : 0 }}%</h3>
+        <h3>完成度：{{ wordId ? `${(wordId - 1)} / 25` : 0 }}</h3>
         <div class="data-container" v-if="!isLoading">
             <p>{{ prompt }}</p>
             <div class="btn-container"><button class="hint" v-if="!clickedStem" @click="showStem">提示</button></div>
@@ -9,7 +9,8 @@
                 <p>{{ stem }}</p>
             </div>
             <div class="img-container">
-                <img :src="img" alt="Dialect image" />
+                <!-- <img :src="img" alt="Dialect image" /> -->
+                <img :src="`/dialect_imgs/${wordId? wordId : 1}.png`" alt="Dialect image" />
             </div>
             <p class="desc">{{ desc }}</p>
         </div>
@@ -142,8 +143,13 @@ div.hint-text p {
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useStore } from 'vuex';
+import { MediaRecorder,register } from 'extendable-media-recorder';
+import { connect } from 'extendable-media-recorder-wav-encoder';
+
+
 
 export default {
+
     setup() {
         const store = useStore();
         const accessToken = store.getters.accessToken;
@@ -169,11 +175,15 @@ export default {
             isCompleted: false
         };
     },
-    created() {
+    beforeMount() {
+        this.reau();
+    },
+    created() {        
         this.fetchWord();
     },
     methods: {
-
+        
+        
         showStem() {
             this.clickedStem = true;
         },
@@ -183,7 +193,7 @@ export default {
             this.isLoading = true;
             try {
                 const response = await axios.get(`/api/audio/word/${this.wordId}`);
-                this.img = response.data.img;
+                // this.img = response.data.img;
                 this.desc = response.data.desc;
                 this.prompt = response.data.prompt;
                 this.stem = response.data.stem;
@@ -193,23 +203,25 @@ export default {
             }
         },
 
+        async reau(){
+            await register(await connect());
+        },
+
         startRecording() {
             console.log('start recording')
+            
             if (!this.isRecording) {
                 this.isRecording = true;
                 this.recordedChunks = [];
-                var mediaConstraints = {
-                    audio: {
-                        sampleRate: 44100,
-                        sampleSize: 16,
-                    }
+                const mediaConstraints = {
+                    audio: true
                 };
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia(mediaConstraints)
+                     navigator.mediaDevices.getUserMedia(mediaConstraints)
                         .then((stream) => {
-                            this.mediaRecorder = new MediaRecorder(stream);
+                            this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });                            
                             this.mediaRecorder.start();
-
+                            
                             this.mediaRecorder.addEventListener('dataavailable', (event) => {
                                 if (event.data.size > 0) {
                                     this.recordedChunks.push(event.data);
@@ -271,9 +283,11 @@ export default {
                 return;
 
             try {
-
+                console.log(this.audioBlob)
                 const base64Audio = await this.blobToBase64(this.audioBlob);
+        
                 const base64String = base64Audio.split(',')[1];
+                console.log(base64Audio,this.wordId,this.stem)
                 const response = await axios.post('/api/userRecord/upload', {
                     record_file: base64String,
                     word_id: this.wordId,

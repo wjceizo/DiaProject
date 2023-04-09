@@ -112,7 +112,7 @@ class WordById(MethodView):
             "id": word.id,
             "stem": word.stem,
             "stemtranslation": word.translation,
-            "img": convert_base64(word.id),
+            # "img": convert_base64(word.id),
             "desc": word.meaning,
             "prompt": word.prompt,
         }
