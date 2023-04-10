@@ -16,7 +16,7 @@
             </div>
             <div class="img-container">
                 <!-- <img :src="img" alt="Dialect image" /> -->
-                <img :src="`/dialect_imgs/${wordId ? wordId : 1}.webp`" alt="Dialect image" />
+                <img :src="`https://raw.githubusercontent.com/wjceizo/DiaProject/main/frontend/public/dialect_imgs/${wordId ? wordId : 1}.webp`" alt="Dialect image" />
             </div>
             <p class="desc">{{ desc }}</p>
         </div>
