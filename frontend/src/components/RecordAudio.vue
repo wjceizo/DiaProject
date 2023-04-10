@@ -1,4 +1,10 @@
 <template>
+    <nav>
+        <ul>
+            <li><a href="/" @click.prevent="confirmBackToMainPage">回到首页</a></li>
+        </ul>
+    </nav>
+
     <div class="mobile-container">
         <h1>录制您的声音</h1>
         <h3>完成度：{{ wordId ? `${(wordId - 1)} / 25` : 0 }}</h3>
@@ -10,7 +16,7 @@
             </div>
             <div class="img-container">
                 <!-- <img :src="img" alt="Dialect image" /> -->
-                <img :src="`/dialect_imgs/${wordId? wordId : 1}.png`" alt="Dialect image" />
+                <img :src="`/dialect_imgs/${wordId ? wordId : 1}.webp`" alt="Dialect image" />
             </div>
             <p class="desc">{{ desc }}</p>
         </div>
@@ -27,7 +33,7 @@
             <audio ref="audioPlayer"></audio>
         </div>
 
-        <button id="btn-submit" class="btn btn-primary" @click="next" :disabled="!recorded" v-if="!isCompleted">
+        <button id="btn-submit" class="btn btn-primary" @click="next" :disabled="!recorded || submitIsDisabled" v-if="!isCompleted">
             {{ wordId < 25 ? '下一个' : '完成' }} </button>
     </div>
 </template>
@@ -137,13 +143,66 @@ div.hint-text p {
     color: #6c757d;
     height: 2.5em;
 }
+
+
+/* navibar temp */
+nav {
+    display: block;
+    background-color: #2182ea;
+    border-bottom: 1px solid #e7e7e7;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    text-align: start;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline-block;
+    margin: 0 10px;
+    font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:active {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:link {
+    color: #ccc;
+    text-decoration: none;
+}
 </style>
 
 <script>
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useStore } from 'vuex';
-import { MediaRecorder,register } from 'extendable-media-recorder';
+import { MediaRecorder, register } from 'extendable-media-recorder';
 import { connect } from 'extendable-media-recorder-wav-encoder';
 
 
@@ -172,18 +231,19 @@ export default {
             recordedChunks: [],
             audioBlob: null,
             recorded: false,
-            isCompleted: false
+            isCompleted: false,
+            submitIsDisabled: false,
         };
     },
     beforeMount() {
         this.reau();
     },
-    created() {        
+    created() {
         this.fetchWord();
     },
     methods: {
-        
-        
+
+
         showStem() {
             this.clickedStem = true;
         },
@@ -191,6 +251,7 @@ export default {
 
         async fetchWord() {
             this.isLoading = true;
+            this.submitIsDisabled = false;
             try {
                 const response = await axios.get(`/api/audio/word/${this.wordId}`);
                 // this.img = response.data.img;
@@ -203,13 +264,13 @@ export default {
             }
         },
 
-        async reau(){
+        async reau() {
             await register(await connect());
         },
 
         startRecording() {
             console.log('start recording')
-            
+
             if (!this.isRecording) {
                 this.isRecording = true;
                 this.recordedChunks = [];
@@ -217,11 +278,11 @@ export default {
                     audio: true
                 };
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                     navigator.mediaDevices.getUserMedia(mediaConstraints)
+                    navigator.mediaDevices.getUserMedia(mediaConstraints)
                         .then((stream) => {
-                            this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });                            
+                            this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
                             this.mediaRecorder.start();
-                            
+
                             this.mediaRecorder.addEventListener('dataavailable', (event) => {
                                 if (event.data.size > 0) {
                                     this.recordedChunks.push(event.data);
@@ -283,11 +344,10 @@ export default {
                 return;
 
             try {
-                console.log(this.audioBlob)
+                this.submitIsDisabled = true;
                 const base64Audio = await this.blobToBase64(this.audioBlob);
-        
                 const base64String = base64Audio.split(',')[1];
-                console.log(base64Audio,this.wordId,this.stem)
+                console.log(base64Audio, this.wordId, this.stem)
                 const response = await axios.post('/api/userRecord/upload', {
                     record_file: base64String,
                     word_id: this.wordId,
@@ -306,7 +366,13 @@ export default {
             }
         },
 
-
+        confirmBackToMainPage() {
+            if (confirm('确认要回到主页吗？未完成的录音调查将不被保存。')) {
+                this.$store.commit('setAccessToken', '');
+                this.$store.commit('setWordId', 1);
+                window.location.href = '/';
+            }
+        },
 
         async next() {
             if (this.isRecording) {

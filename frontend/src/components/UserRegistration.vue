@@ -1,4 +1,9 @@
 <template>
+    <nav>
+        <ul>
+            <li><a href="/">回到首页</a></li>
+        </ul>
+    </nav>
     <div class="mobile-container">
         <h2>方言调查</h2>
         <form @submit.prevent="registerUser" class="needs-validation" novalidate>
@@ -71,7 +76,7 @@
                     Please select a dialect category.
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" :disabled="!isFormValid()">确认</button>
+            <button type="submit" class="btn btn-primary" :disabled="!isFormValid() || submitIsDisabled" >确认</button>
         </form>
 
     </div>
@@ -116,6 +121,58 @@ button[type="submit"] {
     background-color: #007bff;
     color: #fff;
 }
+
+/* navibar temp */
+nav {
+    display: block;
+    background-color: #2182ea;
+    border-bottom: 1px solid #e7e7e7;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    text-align: start;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline-block;
+    margin: 0 10px;
+    font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:active {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #ccc;
+    text-decoration: none;
+}
+
+a:link {
+    color: #ccc;
+    text-decoration: none;
+}
 </style>
 
 
@@ -123,7 +180,9 @@ button[type="submit"] {
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 export default {
+
     data() {
         return {
             province: '',
@@ -131,6 +190,7 @@ export default {
             county: '',
             town: '',
             language: '',
+            submitIsDisabled: false,
             hasTown: false,
             provinces: [],
             cities: [],
@@ -212,6 +272,7 @@ export default {
             try {
                 console.log(typeof this.city)
                 const townName = this.town.name === undefined ? '' : this.town.name
+                this.submitIsDisabled = true;
                 const response = await axios.post(`/api/userRecord/autoregister`, {
                     location: this.province.name + ',' + this.city.name + ',' + this.county.name + ',' + townName,
                     language: this.language,

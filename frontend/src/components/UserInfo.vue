@@ -8,11 +8,11 @@
         target="_blank" rel="noopener noreferrer" title="dialectology">方言学</a>所关注的内容。</p>
     <h3>如何调查</h3>
     <p>我们采用在互联网发布互动问卷的方式收集方言资料，尤其是语音数据。通过我们的页面，您可以通过近似游戏的形式，在看图说话的互动中完成调查问卷。</p>
-    <p>访问我们的页面时，需要浏览器授权使用您的设备录音权限，这通常可以通过几次轻松的点击完成。</p>
+    <p>访问我们的页面时，需要浏览器授权使用您的设备录音权限，这通常可以通过几次轻松的点击完成。您可以在下面的录音测试中调试麦克风。</p>
     <p>点击<span class="button">录音</span>按钮可以录制声音，录音完成后点击<span class="button">结束录音</span>按钮完成一次录音。如果对录音不满意，您可以点击<span class="button">重新录制</span>按钮。录制的声音可以回放试听。</p>
-    <p>每一个页面通常只需调查一项内容。当完成录音之后，就可以点击<span class="button">下一个</span>按钮来推进调查进度。</p>
+    <p>每一个页面通常只需调查一项内容。当完成录音之后，就可以点击<span class="button">下一个</span>按钮来推进调查进度。本次测试大约占用您5分钟时间。</p>
     <h3>录音测试</h3>
-    <p>录音时，请尽量保持环境安静，以免影响录制效果。（本次测试大约占用您5分钟时间）</p>
+    <p>录音时，请尽量保持环境安静，以免影响录制效果。</p>
     <div class="recorder-container">
       <button id="btn-record" class="btn" :class="{ 'btn-primary': !isRecording, 'btn-danger': isRecording }"
         @click="startRecording" v-if="!isCompleted">
