@@ -217,6 +217,8 @@ export default {
       }
     },
     async next() {
+      this.$store.commit('setAccessToken', '');
+      this.$store.commit('setWordId', 1);
       this.$router.replace('/user-registration');
     },
   },

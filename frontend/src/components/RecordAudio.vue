@@ -347,7 +347,6 @@ export default {
                 this.submitIsDisabled = true;
                 const base64Audio = await this.blobToBase64(this.audioBlob);
                 const base64String = base64Audio.split(',')[1];
-                console.log(base64Audio, this.wordId, this.stem)
                 const response = await axios.post('/api/userRecord/upload', {
                     record_file: base64String,
                     word_id: this.wordId,
@@ -361,8 +360,19 @@ export default {
                 if (response.data.status === 201) {
                     console.log('Recording uploaded successfully');
                 }
+                else {
+                    console.error('Error uploading recording:', error);
+                    alert('用户验证失败，请重新开始');
+                    this.$store.commit('setAccessToken', '');
+                    this.$store.commit('setWordId', 1);
+                    window.location.href = '/';
+                }
             } catch (error) {
                 console.error('Error uploading recording:', error);
+                this.$store.commit('setAccessToken', '');
+                this.$store.commit('setWordId', 1);
+                alert('用户验证失败，请返回主页重新开始');
+                window.location.href = '/';
             }
         },
 
