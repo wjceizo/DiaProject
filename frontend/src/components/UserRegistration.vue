@@ -71,6 +71,7 @@
                     <option value="LanYin">兰银官话</option>
                     <option value="Jianghuai">江淮官话</option>
                     <option value="Southwest">西南官话</option>
+                    <option value="Unsure">我不确定自己的方言类型</option>
                 </select>
                 <div class="invalid-feedback">
                     Please select a dialect category.
