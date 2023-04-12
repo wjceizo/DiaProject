@@ -8,7 +8,7 @@ WORKDIR /backend
 ADD . /backend
 
 # Install the python dependencies
-RUN pip install -r requirements.txt -i 
+RUN pip install -r requirements.txt  
 
 # start 
 CMD [ "waitress-serve", "--host", "0.0.0.0","--port","5000","Diapp:app"]
