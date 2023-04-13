@@ -9,7 +9,8 @@
     <h3>如何调查</h3>
     <p>我们采用在互联网发布互动问卷的方式收集方言资料，尤其是语音数据。通过我们的页面，您可以通过近似游戏的形式，在看图说话的互动中完成调查问卷。</p>
     <p>访问我们的页面时，需要浏览器授权使用您的设备录音权限，这通常可以通过几次轻松的点击完成。您可以在下面的录音测试中调试麦克风。</p>
-    <p>点击<span class="button">录音</span>按钮可以录制声音，录音完成后点击<span class="button">结束录音</span>按钮完成一次录音。如果对录音不满意，您可以点击<span class="button">重新录制</span>按钮。录制的声音可以回放试听。</p>
+    <p>点击<span class="button">录音</span>按钮可以录制声音，录音完成后点击<span class="button">结束录音</span>按钮完成一次录音。如果对录音不满意，您可以点击<span
+        class="button">重新录制</span>按钮。录制的声音可以回放试听。</p>
     <p>每一个页面通常只需调查一项内容。当完成录音之后，就可以点击<span class="button">下一个</span>按钮来推进调查进度。本次调查大约占用您5分钟时间。</p>
     <h3>录音测试</h3>
     <p>录音时，请尽量保持环境安静，以免影响录制效果。</p>
@@ -57,7 +58,7 @@
   background-position: 140%;
 }
 
-.intro h3{
+.intro h3 {
   text-align: center;
   margin: 1rem auto;
 }
@@ -145,13 +146,13 @@ button {
   width: 100%;
   margin-top: 16px;
 }
-
-
 </style>
 
 
 <script>
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { MediaRecorder, register } from 'extendable-media-recorder';
+import { connect } from 'extendable-media-recorder-wav-encoder';
 
 export default {
   data() {
@@ -162,19 +163,27 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.reau();
+  },
+
   methods: {
+    async reau() {
+      await register(await connect());
+    },
+
     startRecording() {
       console.log('start recording')
       if (!this.isRecording) {
         this.isRecording = true;
-
         this.recordedChunks = [];
-
-        const mediaConstraints = { audio: true };
+        const mediaConstraints = {
+          audio: true
+        };
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           navigator.mediaDevices.getUserMedia(mediaConstraints)
             .then((stream) => {
-              this.mediaRecorder = new MediaRecorder(stream);
+              this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
               this.mediaRecorder.start();
 
               this.mediaRecorder.addEventListener('dataavailable', (event) => {
@@ -184,7 +193,7 @@ export default {
               });
 
               this.mediaRecorder.addEventListener('stop', () => {
-                this.audioBlob = new Blob(this.recordedChunks, { type: 'audio/webm' });
+                this.audioBlob = new Blob(this.recordedChunks, { type: 'audio/wav' });
                 // Now you can upload or update the recorded audio.
                 this.recorded = true;
               });

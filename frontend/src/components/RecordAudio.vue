@@ -16,7 +16,8 @@
             </div>
             <div class="img-container">
                 <!-- <img :src="img" alt="Dialect image" /> -->
-                <img :src="`https://raw.githubusercontent.com/wjceizo/DiaProject/main/frontend/public/dialect_imgs/${wordId ? wordId : 1}.webp`" alt="Dialect image" />
+                <img :src="imageUrls[wordId - 1]">
+                <!-- <img :src="`https://raw.githubusercontent.com/wjceizo/DiaProject/main/frontend/public/dialect_imgs/${wordId ? wordId : 1}.webp`" alt="Dialect image" /> -->
             </div>
             <p class="desc">{{ desc }}</p>
         </div>
@@ -233,6 +234,31 @@ export default {
             recorded: false,
             isCompleted: false,
             submitIsDisabled: false,
+            imageUrls: ["https://s1.imagehub.cc/images/2023/04/12/e534fb7b5bb3c6203c788774eae5e1eb.png",
+                "https://s1.imagehub.cc/images/2023/04/12/a50bdf727aa9f58afb96cefd17c044d5.png",
+                "https://s1.imagehub.cc/images/2023/04/12/0730e866ea7d6a8e892f5ac8b213bc1d.png",
+                "https://s1.imagehub.cc/images/2023/04/12/4c5e63c6af8c8c6f684b1a9c5861f7b6.png",
+                "https://s1.imagehub.cc/images/2023/04/12/1ed03eafe1821fd9adfef316259fcc51.png",
+                "https://s1.imagehub.cc/images/2023/04/12/15ae43f4d5bbf8de0a5968bc23b2c267.png",
+                "https://s1.imagehub.cc/images/2023/04/12/a570a8c9b1a31f57c3e98b40e2972d63.png",
+                "https://s1.imagehub.cc/images/2023/04/12/4fa5eea968de749296d992bbedd4be99.png",
+                "https://s1.imagehub.cc/images/2023/04/12/805f1202c4f054edfd60d89159e81163.png",
+                "https://s1.imagehub.cc/images/2023/04/12/fdbe1bfcfe5b6ce4906daa915285d196.png",
+                "https://s1.imagehub.cc/images/2023/04/12/acb38f4fba32a85f146edbc68d24bb23.png",
+                "https://s1.imagehub.cc/images/2023/04/12/7b097b6e01bfa020428b4bd3c1aa3c29.png",
+                "https://s1.imagehub.cc/images/2023/04/12/97789717ee647e4c3d785bde6fa39e73.png",
+                "https://s1.imagehub.cc/images/2023/04/12/db7b9df53a59282b78488d46da7fba05.png",
+                "https://s1.imagehub.cc/images/2023/04/12/7c6a6cb9d7e761cd6690142d3cdac485.png",
+                "https://s1.imagehub.cc/images/2023/04/12/f93ef24053f0fb61b6c620228e4d8984.png",
+                "https://s1.imagehub.cc/images/2023/04/12/48ac1179792b6d60a2cbb8f7a9690e84.png",
+                "https://s1.imagehub.cc/images/2023/04/12/30352f2e6d41e7d848da40be8c7c602e.png",
+                "https://s1.imagehub.cc/images/2023/04/12/3446b707680262759b715357ab5f9328.png",
+                "https://s1.imagehub.cc/images/2023/04/12/6d252c11ee177075ab8cfd64c2d027b6.png",
+                "https://s1.imagehub.cc/images/2023/04/12/5d2c8a89afde312a454be308dc2d8249.png",
+                "https://s1.imagehub.cc/images/2023/04/12/5f3ea25962e8bb450c8caa411f54d4ec.png",
+                "https://s1.imagehub.cc/images/2023/04/12/3d39f5f133816faeabd1c08cc2084cef.png",
+                "https://s1.imagehub.cc/images/2023/04/12/5064d5849b4c531bccc809b4071e3dea.png",
+                "https://s1.imagehub.cc/images/2023/04/12/822f78d6f21c7f12a1edf3b773e25cf1.png"],
         };
     },
     beforeMount() {
@@ -361,7 +387,6 @@ export default {
                     console.log('Recording uploaded successfully');
                 }
                 else {
-                    console.error('Error uploading recording:', error);
                     alert('用户验证失败，请重新开始');
                     this.$store.commit('setAccessToken', '');
                     this.$store.commit('setWordId', 1);
