@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 import click
 from flask_migrate import Migrate
@@ -21,4 +23,6 @@ def make_shell_context():
                 Diff=Diff, Difftype=Difftype, Survey=Survey, Surveywordrel=Surveywordrel)
 
 if __name__ == '__main__':
-    app.run()
+    import bjoern
+
+    bjoern.run(app, "127.0.0.1", 5000)
