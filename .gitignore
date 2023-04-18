@@ -28,3 +28,6 @@ backend/.idea
 *.sln
 *.sw?
 __pycache__/
+
+# Recordings
+recordings/

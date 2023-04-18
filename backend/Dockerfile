@@ -37,12 +37,13 @@ RUN set -eux; \
     pip cache purge; \
     apk del .build-deps
 
-WORKDIR /app
-
 COPY . /app
 
 RUN sed -i "s|127.0.0.1|0.0.0.0|g" /app/Diapp.py
 
+VOLUME /app/records
+
 EXPOSE 5000
+WORKDIR /app
 
 ENTRYPOINT ["/sbin/tini", "--", "/app/Diapp.py"]

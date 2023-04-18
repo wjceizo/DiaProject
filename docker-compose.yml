@@ -1,28 +1,28 @@
 version: "3.8"
 
 services:
-  # first container
   backend:
-    # look for dockerfile and build the container
-    build: ./backend
-    container_name: backend
-    restart: always
-    # set enviornemt variables
+    build:
+      context: backend
+    restart: on-failure:3
     environment:
       - APP_NAME=Diapp
-    #  mount the volumes so we can change code and hot reload
     volumes:
-      - './backend:/backend'
-    #  expose port on the container, only to other containers
+      - 'record:/app/records'
     ports:
-      - 5000:5000
+      - '5000:5000'
 
   frontend:
-    build: ./frontend
-    container_name: frontend
-    restart: always
-    #  mount the volumes so we can change code and hot reload
-    volumes:
-      - './frontend:/frontend'
+    build:
+      context: frontend
+    restart: on-failure:3
     ports:
-      - "8080:80"
+      - '8080:80'
+
+volumes:
+  record:
+    driver: local
+    driver_opts:
+      type: none
+      device: './recordings'
+      o: bind
