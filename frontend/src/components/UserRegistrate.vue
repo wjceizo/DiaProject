@@ -254,7 +254,7 @@ export default {
 
 
       
-<style>
+<style scoped>
 /* Add Bootstrap classes and custom styles here */
 .form-group label {
         font-weight: bold;

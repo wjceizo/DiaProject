@@ -27,6 +27,7 @@
     <button id="btn-submit" class="btn btn-primary" @click="next">我已阅读，开始录音</button>
   </div>
 </template>
+
 <style scoped>
 .intro {
   max-width: 100%;
