@@ -1,6 +1,5 @@
 <template>
   <div class="intro">
-    <h2>Dialectr</h2>
     <h3>为什么要调查方言</h3>
     <p>自 20 世纪以来，方言一直是语言学家的研究课题，也是民众饶有兴趣的聊天话题。通过方言调查，可以了解一个语言社区的语音差异和相似性，定量计算<a
         href="https://en.wikipedia.org/wiki/Linguistic_distance" target="_blank" rel="noopener noreferrer"
@@ -226,10 +225,12 @@ export default {
       }
     },
     async next() {
-      this.$store.commit('setAccessToken', '');
+      this.$store.commit('settemporaryToken', '');
       this.$store.commit('setWordId', 1);
-      this.$router.replace('/user-registration');
+      this.$router.replace('/auto-registration');
     },
+    
+
   },
 }
 

@@ -13,4 +13,3 @@ class Mainpage(MethodView):
             return {"message":"Hello, world"}
         except KeyError:
             abort(404, message="Not found.")
-

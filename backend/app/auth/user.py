@@ -65,7 +65,7 @@ class UserView(MethodView):
             user_dict.update({'user_id': user.id,
                               'username': user.username,
                               'email': user.email,
-                              'role': 'User' if user.id == 2 else 'Admin',
+                              'role': 'Admin' if user.role_id == 1 else 'Member' if user.role_id == 2 else 'User' if user.role_id == 3 else None,
                               'name': user.name,
                               'location': user.location,
                               'lang': user.lang})

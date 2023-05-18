@@ -37,9 +37,9 @@ button[type="complete"] {
     methods: {
       resetRecordings() {
         // Clear the accessToken and wordId from the Vuex store
-        this.$store.commit('setAccessToken', '');
+        this.$store.commit('settemporaryToken', '');
         this.$store.commit('setWordId', 1);
-        this.$router.replace('/');
+        this.$router.replace('/questionnaire');
       }
     },
     created() {

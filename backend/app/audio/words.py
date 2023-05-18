@@ -101,7 +101,7 @@ class UploadImage(MethodView):
             os.remove(upload_path)
             return {"status": 404, "message": "数据库查询异常"}, 404
         
-        return {"message": "ok"}
+        return {"status": 201,"message": "ok"}
 
 
 @audio.route("/word/<word_id>")

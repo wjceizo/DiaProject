@@ -1,10 +1,4 @@
 <template>
-    <nav>
-        <ul>
-            <li><a href="/" @click.prevent="confirmBackToMainPage">回到首页</a></li>
-        </ul>
-    </nav>
-
     <div class="mobile-container">
         <h1>录制您的声音</h1>
         <h3>完成度：{{ wordId ? `${(wordId - 1)} / 25` : 0 }}</h3>
@@ -34,7 +28,8 @@
             <audio ref="audioPlayer"></audio>
         </div>
 
-        <button id="btn-submit" class="btn btn-primary" @click="next" :disabled="!recorded || submitIsDisabled" v-if="!isCompleted">
+        <button id="btn-submit" class="btn btn-primary" @click="next" :disabled="!recorded || submitIsDisabled"
+            v-if="!isCompleted">
             {{ wordId < 25 ? '下一个' : '完成' }} </button>
     </div>
 </template>
@@ -212,10 +207,10 @@ export default {
 
     setup() {
         const store = useStore();
-        const accessToken = store.getters.accessToken;
+        const temporaryToken = store.getters.temporaryToken;
         const wordId = store.getters.wordId;
         return {
-            accessToken, wordId
+            temporaryToken, wordId
         };
     },
 
@@ -379,7 +374,7 @@ export default {
                     audio_feat: this.stem,
                 }, {
                     headers: {
-                        'Authorization': `Bearer ${this.accessToken}`,
+                        'Authorization': `Bearer ${this.temporaryToken}`,
                     },
                 });
 
@@ -388,13 +383,13 @@ export default {
                 }
                 else {
                     alert('用户验证失败，请重新开始');
-                    this.$store.commit('setAccessToken', '');
+                    this.$store.commit('settemporaryToken', '');
                     this.$store.commit('setWordId', 1);
                     window.location.href = '/';
                 }
             } catch (error) {
                 console.error('Error uploading recording:', error);
-                this.$store.commit('setAccessToken', '');
+                this.$store.commit('settemporaryToken', '');
                 this.$store.commit('setWordId', 1);
                 alert('用户验证失败，请返回主页重新开始');
                 window.location.href = '/';
@@ -403,7 +398,7 @@ export default {
 
         confirmBackToMainPage() {
             if (confirm('确认要回到主页吗？未完成的录音调查将不被保存。')) {
-                this.$store.commit('setAccessToken', '');
+                this.$store.commit('settemporaryToken', '');
                 this.$store.commit('setWordId', 1);
                 window.location.href = '/';
             }

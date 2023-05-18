@@ -65,7 +65,7 @@
 
 ### 获取用户
 
-/auth/users
+/auth/userinfo
 
 - 方法：get
 

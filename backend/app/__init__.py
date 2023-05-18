@@ -88,11 +88,10 @@ def create_app(config_name):
     from .audio import audio as audio_blueprint
     api.register_blueprint(audio_blueprint, url_prefix='/api/audio')
 
-
     from .user_record import user_record as user_record_blueprint
-    app.register_blueprint(user_record_blueprint, url_prefix='/api/userRecord')
+    api.register_blueprint(user_record_blueprint, url_prefix='/api/userRecord')
 
     from .location import location as location_blueprint
-    app.register_blueprint(location_blueprint, url_prefix='/api/location')
+    api.register_blueprint(location_blueprint, url_prefix='/api/location')
 
     return app

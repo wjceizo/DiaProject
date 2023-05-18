@@ -1,20 +1,8 @@
-import { createApp } from 'vue';
-import App from './App.vue';
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import App from './App.vue'
+import store from './store'
 import router from './router'
-import store from './store';
+// import 'bootstrap/dist/css/bootstrap.css'
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = (store.getters.accessToken !== '');
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next({ path: '/' });
-  } else if (to.path === '/' && isAuthenticated) {
-    next({ path: '/record-audio' });
-  } else {
-    next();
-  }
-});
-
-createApp(App)
-  .use(store)
-  .use(router)
-  .mount('#app');
+createApp(App).use(store).use(store).use(router).mount('#app')

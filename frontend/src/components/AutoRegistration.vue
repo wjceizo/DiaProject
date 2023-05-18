@@ -1,9 +1,4 @@
 <template>
-    <nav>
-        <ul>
-            <li><a href="/">回到首页</a></li>
-        </ul>
-    </nav>
     <div class="mobile-container">
         <h2>方言调查</h2>
         <form @submit.prevent="registerUser" class="needs-validation" novalidate>
@@ -71,7 +66,6 @@
                     <option value="LanYin">兰银官话</option>
                     <option value="Jianghuai">江淮官话</option>
                     <option value="Southwest">西南官话</option>
-                    <option value="Unsure">我不确定自己的方言类型</option>
                 </select>
                 <div class="invalid-feedback">
                     Please select a dialect category.
@@ -280,7 +274,7 @@ export default {
                 });
 
                 if (response.data.message === 'success') {
-                    this.$store.dispatch('setAccessToken', response.data.access_token);
+                    this.$store.dispatch('settemporaryToken', response.data.access_token);
                     this.$router.replace('/record-audio');
                 }
             } catch (error) {
@@ -295,3 +289,6 @@ export default {
 };
 </script>
   
+
+
+
