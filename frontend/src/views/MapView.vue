@@ -22,7 +22,7 @@
     <p>{{ selectedTown }}</p>
     <div class="audio-container">
       <audio v-if="audioUrl" ref="audio" :src="audioUrl" @ended="onAudioEnded"></audio>
-      <button v-if="audioUrl" @click="playAudio">Play audio</button>
+      <button v-if="audioUrl" @click="playAudio">播放录音</button>
     </div>
   </div>
 </div>

@@ -8,13 +8,13 @@
         <router-link class="nav-link" to="/map" v-if="accessToken">方言地图</router-link>
         <router-link class="nav-link" to="/about">关于</router-link>
       </div>
-      <div class="navbar-nav" v-if="!accessToken">
-        <router-link class="btn btn-primary nav-link mx-2" to="/register">注册</router-link>
-        <router-link class="btn btn-secondary nav-link" to="/login">登录</router-link>
+      <div class="navbar-nav d-flex align-items-center" v-if="!accessToken">
+        <router-link class="btn btn-primary nav-link mx-2 my-2 fixed-dim text-white" to="/register" >注册</router-link>
+        <router-link class="btn btn-secondary nav-link fixed-dim text-white" to="/login">登录</router-link>
       </div>
-      <div class="navbar-nav" v-else>
+      <div class="navbar-nav d-flex align-items-center" v-else>
         <router-link class="nav-link" to="/profile">个人信息</router-link>
-        <button class="btn btn-danger nav-link mx-2" @click="handleLogout">注销</button>
+        <button class="btn btn-danger nav-link mx-2 fixed-dim text-white" @click="handleLogout">注销</button>
       </div>
     </nav>
     <router-view></router-view>
@@ -44,3 +44,10 @@ export default {
   // }
 }
 </script>
+
+<style scoped>
+.fixed-dim {
+  width: 6rem;
+  height: 3rem;
+}
+</style>
