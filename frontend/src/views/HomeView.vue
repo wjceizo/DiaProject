@@ -7,8 +7,8 @@
     </p>
     <div class="map">
       <svg
-        width="210mm"
-        height="297mm"
+        width="70vw"
+        height="70vh"
         viewBox="0 0 210 297"
         version="1.1"
         id="svg1150"
@@ -1683,8 +1683,8 @@
         id="Jiangsu"
         x="0px"
         y="0px"
-        width="783.84px"
-        height="755.832px"
+        width="70vw"
+        height="70vh"
         viewBox="0 0 783.84 755.832"
         enable-background="new 0 0 783.84 755.832"
         xml:space="preserve"

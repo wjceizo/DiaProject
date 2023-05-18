@@ -6,19 +6,11 @@
 
   <div class="contact-info">
     <p>如有疑惑，请联系：</p>
-    <p class="email">wjceizo@outlook.com</p>
+    <p class="email"><a href="mailto:wjceizo@outlook.com">wjceizo@outlook.com</a></p>
   </div>
 </template>
 
 <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      /* align-items: center; */
-    }
-  }
-
 body {
   font-family: Arial, sans-serif;
   margin: 0;

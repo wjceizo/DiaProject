@@ -80,11 +80,23 @@
                         <label for="lang">方言</label>
                         <select id="lang" v-model="form.lang" class="form-control" required>
                                 <option value="" disabled>请选择你的方言</option>
-                                <option value="晋方言">晋方言</option>
-                                <option value="吴方言">吴方言</option>
-                                <option value="江淮官话">江淮官话</option>
-                                <option value="客家话">客家话</option>
-                                <option value="北京官话">北京官话</option>
+                                <option value="Jin">晋方言</option>
+                                <option value="Wu">吴方言</option>
+                                <option value="Min">闽方言</option>
+                                <option value="Hakka">客家方言</option>
+                                <option value="Cantonese">粤方言</option>
+                                <option value="Xiang">湘方言</option>
+                                <option value="Gan">赣方言</option>
+                                <option value="Hui">徽方言</option>
+                                <option value="Ping">平话</option>
+                                <option value="Northeast">东北官话</option>
+                                <option value="Beijing">北京官话</option>
+                                <option value="Jilu">冀鲁官话</option>
+                                <option value="JiaoLiao">胶辽官话</option>
+                                <option value="CentralPlains">中原官话</option>
+                                <option value="LanYin">兰银官话</option>
+                                <option value="Jianghuai">江淮官话</option>
+                                <option value="Southwest">西南官话</option>
                         </select>
                 </div>
                 <div v-if="message" class="alert alert-danger">{{ message }}</div>
@@ -258,53 +270,54 @@ export default {
 }
 
 nav {
-    display: block;
-    background-color: #2182ea;
-    border-bottom: 1px solid #e7e7e7;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    height: 50px;
-    line-height: 50px;
-    position: relative;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    text-align: start;
+        display: block;
+        background-color: #2182ea;
+        border-bottom: 1px solid #e7e7e7;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        height: 50px;
+        line-height: 50px;
+        position: relative;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        text-align: start;
 }
 
 ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+        list-style: none;
+        margin: 0;
+        padding: 0;
 }
+
 li {
-    display: inline-block;
-    margin: 0 10px;
-    font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+        display: inline-block;
+        margin: 0 10px;
+        font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a {
-    color: #ccc;
-    text-decoration: none;
+        color: #ccc;
+        text-decoration: none;
 }
 
 a:hover {
-    color: #ccc;
-    text-decoration: none;
+        color: #ccc;
+        text-decoration: none;
 }
 
 a:active {
-    color: #ccc;
-    text-decoration: none;
+        color: #ccc;
+        text-decoration: none;
 }
 
 a:visited {
-    color: #ccc;
-    text-decoration: none;
+        color: #ccc;
+        text-decoration: none;
 }
 
 a:link {
-    color: #ccc;
-    text-decoration: none;
+        color: #ccc;
+        text-decoration: none;
 }
 </style>
       
