@@ -8,7 +8,7 @@
                         <label for="newpassword">新密码</label>
                         <input id="new password" v-model="form.newpassword" type="password" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">修改密码</button>
+                <button type="submit" class="btn btn-primary mt-3">修改密码</button>
         </form>
 </template>
       

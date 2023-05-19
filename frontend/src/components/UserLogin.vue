@@ -8,8 +8,8 @@
                         <label for="password">密码</label>
                         <input id="password" v-model="form.password" type="password" class="form-control" required>
                 </div>
-                <div class="form-group">
-                        <button type="submit" class="btn btn-primary">登录</button>
+                <div class="form-group d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mt-3">登录</button>
                 </div>
                 <div v-if="message" class="alert alert-danger">{{ message }}</div>
         </form>

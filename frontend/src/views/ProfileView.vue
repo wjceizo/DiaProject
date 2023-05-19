@@ -8,7 +8,7 @@
     <p>地点: {{ userInfo.location }}</p>
     <p>工作: {{ userInfo.work }}</p>
 
-    <button type="btn-submit" class="btn btn-primary" @click="isEditing = true; isChangePassVisible = false">修改个人信息</button>
+    <button type="btn-submit" class="btn btn-primary mx-3" @click="isEditing = true; isChangePassVisible = false">修改个人信息</button>
 
     <form v-if="isEditing" @submit.prevent="updateInfo">
       <div class="form-group">
@@ -19,7 +19,7 @@
         <label for="email">电子邮箱</label>
         <input id="email" v-model="form.email" type="email" class="form-control" required>
       </div>
-      <button type="btn-submit" class="btn btn-primary">提交</button>
+      <button type="btn-submit" class="btn btn-primary mt-3 ">提交</button>
     </form>
     <button id="btn-submit" class="btn btn-primary" @click="changePass" v-if="isChangePassVisible">更改密码</button>
   </div>
