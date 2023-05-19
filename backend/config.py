@@ -15,7 +15,7 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=60)
     JWT_REFRESH_TOKEN_EXPIRES =  datetime.timedelta(days=30)
     PROPAGATE_EXCEPTIONS = True 
-    API_TITLE = "Dialect Map REST API"
+    API_TITLE = "Dialectr REST API"
     API_VERSION = "v1"
     OPENAPI_VERSION = "3.0.3"
     OPENAPI_URL_PREFIX = "/api"
